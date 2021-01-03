@@ -11,7 +11,7 @@ function panel_referral_init(){
 	var script_output_css, script_output;
 
 	script_output_css =  "<style>";
-	script_output_css += ".script_referral {font-size: 12px; background: #cccccc; border: 2px groove #09ff00; margin-bottom: 1em;}"
+	script_output_css += ".script_referral {font-size: 12px; background: #cccccc; border: 2px groove #09ff00; margin-bottom: 1em;}";
 	script_output_css += ".script_referral h1 {font-size: 1.4em; margin: 0;}";
 	script_output_css += ".script_referral h2 {font-size: 1.2em; color: #28731a; margin:0; }";
 	script_output_css += "</style>";
