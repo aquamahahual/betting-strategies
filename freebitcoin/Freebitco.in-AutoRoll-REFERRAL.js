@@ -1,4 +1,4 @@
-var script_version = 0.1
+var script_version = 0.1;
 
 (function() {
     'use strict';
