@@ -1,14 +1,4 @@
-// ==UserScript==
-// @name         Freebitcoin Autoroll Referral
-// @description  Advanced section for autoroll script, just for referrals
-// @author       dany-veneno
-// @icon         https://bit.ly/33sYX3b
-// @match        https://freebitco.in/*
-// @version      0.1
-// @grant        none
-// ==/UserScript==
-
-var script_version = GM_info.script.version;
+var script_version = 0.1;
 
 (function() {
     'use strict';
@@ -30,7 +20,7 @@ function panel_referral_init(){
 	script_output += "<div class='center free_play_bonus_box_large script_referral' id='script_referral'>";
 	script_output += "<h1>Multiply Betting System v."+script_version+"</h1>"
 	script_output += "<h2>Just for referrals</h2>"
-	script_output += MULTIPLY;
+	//script_output += MULTIPLY;
 	script_output += "</div>";
 
 	$('#script_output').after(script_output);
