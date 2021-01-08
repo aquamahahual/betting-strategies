@@ -2,8 +2,8 @@ var script_version = 0.1;
 
 (function() {
     'use strict';
-    setTimeout(function(){ panel_referral_init(); }, 1000 );
-    
+    setTimeout(function(){ panel_referral_init(); }, 500 );
+    setTimeout(function(){ graphs_init(); }, 700 );
 
 })();
 var max_consecutive_losts = G_getCookie('max_consecutive_losts');
@@ -16,8 +16,9 @@ if ( isNaN(parseFloat(tot_multiply_bets)) ) tot_multiply_bets = 0;
 
 
 function panel_referral_init(){
-	var script_output_css, script_output;
+	var script_output_css, script_output, script_output_js;
 
+	script_output_js  = "<script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0'></script>";
 	script_output_css =  "<style>";
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-template-columns: 1fr 1fr; grid-gap: 1rem; padding: 1rem; margin: 0 auto; width: max-content; }";
 	script_output_css += ".card {height: 12em; width: 25em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex;flex-direction:column; align-items: flex-start;background-size: cover;background-position: center;box-shadow: 0 0 5em -1em black; position: relative; overflow: hidden; border: 1px solid lime; text-decoration: none; text-align: left;}"
@@ -62,10 +63,16 @@ function panel_referral_init(){
 	script_output += "<span>Max Consecutive Losess (Session): <span id='ref_multiply_max_consecutive_losts'></span></span>";
 	script_output += "<span>Max Consecutive Losses (Always): <span id='ref_multiply_max_consecutive_losts'>"+max_consecutive_losts+"</span></span>";
 	script_output += "</div>"; //card 3close
+
+	script_output += "<div id='card4' class='card'>";
+	script_output += "<canvas id='myChart'></canvas>";
+	script_output += "</div>"; //card 3close
+
 	script_output += "</div>"; //card wrapper close
 	script_output += "</div>"; //main div close 
 
 	$('head').append(script_output_css);
+	$('head').append(script_output_js);
 	$('#script_output').after(script_output);
 
 	if (Boolean(G_MULTIPLY)) {
@@ -88,6 +95,34 @@ function panel_referral_init(){
 	}
 } 
 
+function graphs_init () {
+	var ctx = document.getElementById('myChart').getContext('2d');
+	var chart = new Chart(ctx, {
+	    // The type of chart we want to create
+	    type: 'line',
+
+	    // The data for our dataset
+	    data: {
+	        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+	        datasets: [{
+	            label: 'My First dataset',
+	            backgroundColor: 'rgb(255, 99, 132)',
+	            borderColor: 'rgb(255, 99, 132)',
+	            data: [0, 10, 5, 2, 20, 30, 45]
+	        }]
+	    },
+
+	    // Configuration options go here
+	    options: {
+	    	legend: {
+	            labels: {
+	                // This more specific font property overrides the global property
+	                fontSize: 6
+	            }
+        	}
+	    }
+	});
+}
 function G_getCookie(cname) {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
