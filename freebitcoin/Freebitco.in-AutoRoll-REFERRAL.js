@@ -3,7 +3,7 @@ var script_version = 0.1;
 (function() {
     'use strict';
     setTimeout(function(){ panel_referral_init(); }, 1200 );
-    //setTimeout(function(){ graphs_init(); }, 2500 );
+    setTimeout(function(){ graphs_init(); }, 2500 );
 
 })();
 var max_consecutive_losts = G_getCookie('max_consecutive_losts');
@@ -18,11 +18,11 @@ if ( isNaN(parseFloat(tot_multiply_bets)) ) tot_multiply_bets = 0;
 function panel_referral_init(){
 	var script_output_css, script_output, script_output_js;
 
-	script_output_js =   "<script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0'></script>";
+	script_output_js =   "<script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0' />";
 
 	script_output_css =  "<style>";
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-template-columns: 1fr 1fr; grid-gap: 1rem; padding: 1rem; margin: 0 auto; width: max-content; }";
-	script_output_css += ".card {height: 12em; width: 25em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex;flex-direction:column; align-items: flex-start;background-size: cover;background-position: center;box-shadow: 0 0 5em -1em black; position: relative; overflow: hidden; border: 1px solid lime; text-decoration: none; text-align: left;}"
+	script_output_css += ".card {height: 12em; width: 25em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex;flex-direction:column; align-items: flex-start;background-size: cover;background-position: center;box-shadow: 0 0 5em -1em black; position: relative; overflow: hidden; border: 1px solid lime; text-decoration: none; text-align: left;}";
 	script_output_css += ".colored .white {color:white; }";
 	script_output_css += ".colored .card .true {color:darkgreen; }";
 	script_output_css += ".colored .card .purple {color:purple; }";
