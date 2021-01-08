@@ -24,20 +24,21 @@ function panel_referral_init(){
 	script_output_css =  "<style>";
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 1rem; grid-template-columns: 1fr 1fr; padding: 1rem 0rem; margin: 0 auto; width: max-content; }";
 	script_output_css += ".cards-wrapper-1col { grid-template-columns: 1fr; }";
-	script_output_css += ".card {height: 12em; width: 28em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex; box-shadow: 0 0 5em -1em black; border: 1px solid lime; text-decoration: none; text-align: left;}";
+	script_output_css += ".card {height: 12em; width: 28em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex; flex-direction: column; background-color:#666; box-shadow: 0 0 5em -1em black; border: 1px solid lime; text-decoration: none; text-align: left;}";
 	script_output_css += ".card-double-size {width: 56em; }";
 	script_output_css += ".colored .white {color:white; }";
-	script_output_css += ".colored .card .true {color:darkgreen; }";
-	script_output_css += ".colored .card .purple {color:purple; }";
-	script_output_css += ".colored .card .brown {color:brown; }";
-	script_output_css += ".colored .card .dimgray {color:dimgrey; }";
-	script_output_css += ".colored .card .bisque {color:bisque; }";
+	script_output_css += ".colored .card .purple {color:plum; }";
+	script_output_css += ".colored .card .brown {color:darkorange; }";
+	script_output_css += ".colored .card .coral {color:coral; }";
+	script_output_css += ".colored .card .lime {color:lime; }";
+	script_output_css += ".colored .card .lgrey {color:#bbb; }";
 	script_output_css += ".script_referral {font-size: 12px; background: #bbb; border: 2px groove #09ff00; margin-bottom: 1em;}";
 	script_output_css += ".script_referral h1 {font-size: 1.4em; margin: 0;}";
 	script_output_css += ".script_referral h2 {font-size: 1.2em; color: #28731a; margin:0; }";
 	script_output_css += ".script_referral.grayed {color: #a9a9a9}";
+	script_output_css += ".card .true {color:lime; }";
 	script_output_css += ".card .false {color:darkred; }";
-	script_output_css += ".card h3 {font-size:1.2em; }";
+	script_output_css += ".card h3 {font-size:1.2em; color: aquamarine; }";
 	script_output_css += " @media screen and (max-width: 900px) { .cards-wrapper { grid-template-columns: 1fr; } } "; 
 	script_output_css += " @media screen and (max-width: 500px) { .card {max-width: calc(100vw - 4rem); } } ";
 	script_output_css += "</style>";
@@ -51,14 +52,27 @@ function panel_referral_init(){
 	script_output += "<div class='cards-wrapper'>";	
 
 	script_output += "<div id='card1' class='card'>";
-	script_output += "<h3>Settings</h3>";
+	script_output += "<h3>General Settings</h3>";
 	script_output += "<span>Multiply: <span id='ref_multiply_status' class='bold'></span></span>";
-	script_output += "<span>Wait Hours: <span id='ref_multiply_status' class='bold bisque'>"+G_MULTIPLY_WAIT_HOURS+"</span></span>";
+	script_output += "<span>Multiply at night: <span id='ref_multiply_at_night' class='bold'></span></span>";
+	script_output += "<span>Wait Hours: <span class='bold lime'>"+G_MULTIPLY_WAIT_HOURS+"</span></span>";
 	script_output += "<span>Mode: <span id='ref_multiply_game_mode' class='bold purple'></span></span>";
-	script_output += "<span>Type: <span id='ref_multiply_game_type' class='bold brown'></span></span>";
-	script_output += "<span>Odds: <span id='ref_multiply_game_type' class='bold dimgray'>"+G_ODDS+"</span></span>";
-	script_output += "<span>Increase Rate: <span id='ref_multiply_game_type' class='bold dimgray'>"+G_INCR+"%</span></span>";
+	script_output += "<span>Type: <span id='ref_multiply_game_type' class='bold purple'></span></span>";
+	script_output += "<span>Speed: <span id='ref_multiply_speed' class='bold coral'></span></span>";
+	script_output += "<span>Max Rolls: <span class='bold coral'>"+G_MAX_ROLLS_AT_MULTIPLY+"</span></span>";
+	script_output += "<span>Max Plays: <span class='bold coral'>"+G_MAX_PLAY+" </span>and stop</span>";
 	script_output += "</div>"; //card 1 close
+
+	script_output += "<div id='card2' class='card'>";
+	script_output += "<h3>Game Type Settings</h3>";
+	script_output += "<span>Min Bet: <span class='bold lime'>"+parseFloat(G_MIN_BET).toFixed(8)+"</span></span>";
+	script_output += "<span>Bas Bet: <span class='bold lime'>"+G_BAS_BET+"</span></span>";
+	script_output += "<span>Max Bet: <span class='bold lime'>"+G_MAX_BET+"</span></span>";
+	script_output += "<span>Wait Before Losses: <span class='bold coral'>"+G_MIN_LOSSES_BEFORE_PLAY+"</span></span>"; 
+	script_output += "<span>Wait After Losses: <span class='bold coral'>"+G_WAIT_PLAY_AFTER_LOSSES+"</span></span>"; 
+	script_output += "<span>Odds: <span class='bold dimgray'>"+G_ODDS+"</span></span>";
+	script_output += "<span>Increase Rate: <span class='bold dimgray'>"+G_INCR+"%</span></span>";
+	script_output += "</div>"; //card 2 close
 
 	script_output += "<div id='card2' class='card'>";
 	script_output += "<h3>Stats</h3>";
@@ -96,9 +110,25 @@ function panel_referral_init(){
 		$('#ref_multiply_status').addClass('false').text('Disabled');
 		$('#script_referral').removeClass('colored').addClass('grayed');
 	}
+	if (Boolean(G_MULTIPLY_AT_NIGHT)) {
+		$('#ref_multiply_at_night').addClass('lime').text('Enabled');
+	} else {
+		$('#ref_multiply_status').addClass('false').text('Disabled');
+	}
+	if (G_SPEED == 0 ) {
+		$("#ref_multiply_speed").text('really slow');
+	} else if (G_SPEED == 1 ) {
+		$("#ref_multiply_speed").text('Human Simulation');
+	} else if (G_SPEED == 0 ) {
+		$("#ref_multiply_speed").text('Medium');
+	} else if (G_SPEED == 0 ) {
+		$("#ref_multiply_speed").text('Fast');
+	}  
+
 	if (G_GAME_MODE == 0) {
 		$("#ref_multiply_game_mode").text('Manual');
 	} else $("#ref_multiply_game_mode").text('Auto');
+
 	if (G_GAME_TYPE == 0) {
 		$('#ref_multiply_game_type').text('Mart Classic (0)');	
 	} else if (G_GAME_TYPE == 1) {
