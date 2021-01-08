@@ -113,14 +113,7 @@ function graphs_init () {
 	    },
 
 	    // Configuration options go here
-	    options: {
-	    	legend: {
-	            labels: {
-	                // This more specific font property overrides the global property
-	                fontSize: 6
-	            }
-        	}
-	    }
+	    options: {}
 	});
 }
 function G_getCookie(cname) {
