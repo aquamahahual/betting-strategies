@@ -3,7 +3,7 @@ var script_version = 0.1;
 (function() {
     'use strict';
     setTimeout(function(){ panel_referral_init(); }, 1200 );
-    setTimeout(function(){ graphs_init(); }, 1500 );
+    //setTimeout(function(){ graphs_init(); }, 2500 );
 
 })();
 var max_consecutive_losts = G_getCookie('max_consecutive_losts');
