@@ -24,24 +24,38 @@ function panel_referral_init(){
 	script_output_css += ".script_referral {font-size: 12px; background: #cccccc; border: 2px groove #09ff00; margin-bottom: 1em;}";
 	script_output_css += ".script_referral h1 {font-size: 1.4em; margin: 0;}";
 	script_output_css += ".script_referral h2 {font-size: 1.2em; color: #28731a; margin:0; }";
-	script_output_css += ".card .true {color:darkgreen; }";
+	script_output_css += ".script_referral.grayed {color: gray}";
+	script_output_css += ".colored .card .true {color:darkgreen; }";
+	script_output_css += ".colored .card .purple {color:purple; }";
+	script_output_css += ".colored .card .brown {color:brown; }";
+
 	script_output_css += ".card .false {color:darkred; }";
+	script_output_css += ".card h3 {font-size:1.2em; }";
 	script_output_css += "</style>";
 
-	script_output =  "<div class='center free_play_bonus_box_large script_referral' id='script_referral'>";
+	script_output =  "<div class='center free_play_bonus_box_large script_referral colored' id='script_referral'>";
 	script_output += "<h1>Multiply Betting System v."+script_version+"</h1>";
 	script_output += "<h2>Just for referrals</h2>";
 	script_output += "<div class='cards-wrapper'>";
+	
 	script_output += "<div id='card1' class='card'>";
+	script_output += "<h3>Settings</h3>";
 	script_output += "<span>Multiply: <span id='ref_multiply_status' class='bold'></span></span>";
+	script_output += "<span>Game Mode: <span id='ref_multiply_game_mode' class='bold purple'></span></span>";
+	script_output += "<span>Game Type: <span id='ref_multiply_game_type' class='bold brown'></span></span>";
+	script_output += "</div>"; //card 1 close
+
+	script_output += "<div id='card2' class='card'>";
+	script_output += "<h3>Stats</h3>";
 	script_output += "<span>Sessions: <span id='ref_multiply_tot_sessions'>"+tot_multiply_sessions+"</span></span>";
 	script_output += "<span>Plays: <span id='ref_multiply_tot_plays'></span></span>";
 	script_output += "<span>Bets: <span id='ref_multiply_tot_bets'>"+tot_multiply_bets+"</span></span>";
-	script_output += "</div>"; //card 1 close
-	script_output += "<div id='card2' class='card'>";
-	script_output += "<span>Max Consecutive Losts Session: <span id='ref_multiply_max_consecutive_losts'>"++"</span></span>";
-	script_output += "<span>Max Consecutive Losts Always: <span id='ref_multiply_max_consecutive_losts'>"+max_consecutive_losts+"</span></span>";
 	script_output += "</div>"; //card 2 close
+	
+	script_output += "<div id='card3' class='card'>";
+	script_output += "<span>Max Consecutive Losts Session: <span id='ref_multiply_max_consecutive_losts'></span></span>";
+	script_output += "<span>Max Consecutive Losts Always: <span id='ref_multiply_max_consecutive_losts'>"+max_consecutive_losts+"</span></span>";
+	script_output += "</div>"; //card 3close
 	script_output += "</div>"; //card wrapper close
 	script_output += "</div>"; //main div close 
 
@@ -49,9 +63,22 @@ function panel_referral_init(){
 	$('#script_output').after(script_output);
 
 	if (Boolean(G_MULTIPLY)) {
-		$('#ref_multiply_status').addClass('true').text('enabled');
+		$('#ref_multiply_status').addClass('true').text('Enabled');
 	} else {
-		$('#ref_multiply_status').addClass('false').text('disabled');
+		$('#ref_multiply_status').addClass('false').text('Disabled');
+		$('#script_referral').removeClass('colored').addClass('grayed');
+	}
+	if (G_GAME_MODE == 0) {
+		$("#ref_multiply_game_mode").text('Manual');
+	} else $("#ref_multiply_game_mode").text('Auto');
+	if (G_GAME_TYPE == 0) {
+		$('#ref_multiply_game_type').text('Mart Classic');	
+	} else if (G_GAME_TYPE == 1) {
+		$('#ref_multiply_game_type').text('Mart Min Losses');	
+	} else if (G_GAME_TYPE == 2) {
+		$('#ref_multiply_game_type').text('Mart Wait After Losses');	
+	} else if (G_GAME_TYPE == 3) {
+		$('#ref_multiply_game_type').text('Mart Min losses Incr');	
 	}
 }
 
