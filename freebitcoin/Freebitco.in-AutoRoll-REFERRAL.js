@@ -2,9 +2,7 @@ var script_version = 0.1;
 
 (function() {
     'use strict';
-    var script_output_js = "<script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0' />";
-	$('head').append(script_output_js);
-
+  
     setTimeout(function(){ panel_referral_init(); }, 1200 );
     setTimeout(function(){ graphs_init(); }, 2500 );
 
