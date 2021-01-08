@@ -20,14 +20,17 @@ function panel_referral_init(){
 
 	script_output_css =  "<style>";
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-template-columns: 1fr 1fr; grid-gap: 1rem; padding: 1rem; margin: 0 auto; width: max-content; }";
-	script_output_css += ".card {height: 12em; width: 20em; font-size: 1em; color: white;border-radius: 1em ;padding: 1em; display: flex;flex-direction:column; align-items: flex-start;background-size: cover;background-position: center;box-shadow: 0 0 5em -1em black;transition: all var(--transition-time); position: relative; overflow: hidden; border: 10px solid #ccc; text-decoration: none; }"
-	script_output_css += ".script_referral {font-size: 12px; background: #cccccc; border: 2px groove #09ff00; margin-bottom: 1em;}";
-	script_output_css += ".script_referral h1 {font-size: 1.4em; margin: 0;}";
-	script_output_css += ".script_referral h2 {font-size: 1.2em; color: #28731a; margin:0; }";
-	script_output_css += ".script_referral.grayed {color: gray}";
+	script_output_css += ".card {height: 12em; width: 20em; font-size: 1em; color: white;border-radius: 1em ;padding: 1em; display: flex;flex-direction:column; align-items: flex-start;background-size: cover;background-position: center;box-shadow: 0 0 5em -1em black; position: relative; overflow: hidden; border: 10px solid #ccc; text-decoration: none; text-align: left;}"
 	script_output_css += ".colored .card .true {color:darkgreen; }";
 	script_output_css += ".colored .card .purple {color:purple; }";
 	script_output_css += ".colored .card .brown {color:brown; }";
+	script_output_css += ".colored .card .dimgray {color:dimgrey; }";
+	script_output_css += ".colored .card .bisque {color:bisque; }";
+	script_output_css += ".script_referral {font-size: 12px; background: #cccccc; border: 2px groove #09ff00; margin-bottom: 1em;}";
+	script_output_css += ".script_referral h1 {font-size: 1.4em; margin: 0;}";
+	script_output_css += ".script_referral h2 {font-size: 1.2em; color: #28731a; margin:0; }";
+	script_output_css += ".script_referral.grayed {color: #a9a9a9}";
+	
 
 	script_output_css += ".card .false {color:darkred; }";
 	script_output_css += ".card h3 {font-size:1.2em; }";
@@ -41,8 +44,11 @@ function panel_referral_init(){
 	script_output += "<div id='card1' class='card'>";
 	script_output += "<h3>Settings</h3>";
 	script_output += "<span>Multiply: <span id='ref_multiply_status' class='bold'></span></span>";
-	script_output += "<span>Game Mode: <span id='ref_multiply_game_mode' class='bold purple'></span></span>";
-	script_output += "<span>Game Type: <span id='ref_multiply_game_type' class='bold brown'></span></span>";
+	script_output += "<span>Wait Hours: <span id='ref_multiply_status' class='bold bisque'>"+G_MULTIPLY_WAIT_HOURS+"</span></span>";
+	script_output += "<span>Mode: <span id='ref_multiply_game_mode' class='bold purple'></span></span>";
+	script_output += "<span>Type: <span id='ref_multiply_game_type' class='bold brown'></span></span>";
+	script_output += "<span>Odds: <span id='ref_multiply_game_type' class='bold dimgray'>"+G_ODDS+"</span></span>";
+	script_output += "<span>Increase Rate: <span id='ref_multiply_game_type' class='bold dimgray'>"+G_INCR+"%</span></span>";
 	script_output += "</div>"; //card 1 close
 
 	script_output += "<div id='card2' class='card'>";
@@ -76,11 +82,11 @@ function panel_referral_init(){
 	} else if (G_GAME_TYPE == 1) {
 		$('#ref_multiply_game_type').text('Mart Min Losses');	
 	} else if (G_GAME_TYPE == 2) {
-		$('#ref_multiply_game_type').text('Mart Wait After Losses');	
+		$('#ref_multiply_game_type').text('Mart After Losses');	
 	} else if (G_GAME_TYPE == 3) {
 		$('#ref_multiply_game_type').text('Mart Min losses Incr');	
 	}
-}
+} 
 
 function G_getCookie(cname) {
   var name = cname + "=";
