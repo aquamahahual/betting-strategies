@@ -2,8 +2,8 @@ var script_version = 0.1;
 
 (function() {
     'use strict';
-    setTimeout(function(){ panel_referral_init(); }, 500 );
-    setTimeout(function(){ graphs_init(); }, 700 );
+    setTimeout(function(){ panel_referral_init(); }, 1200 );
+    setTimeout(function(){ graphs_init(); }, 1500 );
 
 })();
 var max_consecutive_losts = G_getCookie('max_consecutive_losts');
@@ -18,7 +18,8 @@ if ( isNaN(parseFloat(tot_multiply_bets)) ) tot_multiply_bets = 0;
 function panel_referral_init(){
 	var script_output_css, script_output, script_output_js;
 
-	script_output_js  = "<script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0'></script>";
+	script_output_js =   "<script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0'></script>";
+
 	script_output_css =  "<style>";
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-template-columns: 1fr 1fr; grid-gap: 1rem; padding: 1rem; margin: 0 auto; width: max-content; }";
 	script_output_css += ".card {height: 12em; width: 25em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex;flex-direction:column; align-items: flex-start;background-size: cover;background-position: center;box-shadow: 0 0 5em -1em black; position: relative; overflow: hidden; border: 1px solid lime; text-decoration: none; text-align: left;}"
@@ -34,7 +35,8 @@ function panel_referral_init(){
 	script_output_css += ".script_referral.grayed {color: #a9a9a9}";
 	script_output_css += ".card .false {color:darkred; }";
 	script_output_css += ".card h3 {font-size:1.2em; }";
-	script_output_css += " @media screen and (max-width: 900px) {.cards-wrapper { grid-template-columns: 1fr; }}@media screen and (max-width: 500px) {.card {max-width: calc(100vw - 4rem);}}";
+	script_output_css += " @media screen and (max-width: 900px) { .cards-wrapper { grid-template-columns: 1fr; } } "; 
+	script_output_css += " @media screen and (max-width: 500px) { .card {max-width: calc(100vw - 4rem); } } ";
 	script_output_css += "</style>";
 
 	script_output =  "<div class='center free_play_bonus_box_large script_referral colored' id='script_referral'>";
@@ -116,6 +118,7 @@ function graphs_init () {
 	    options: {}
 	});
 }
+
 function G_getCookie(cname) {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
