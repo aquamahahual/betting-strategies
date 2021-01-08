@@ -22,8 +22,10 @@ function panel_referral_init(){
 	
 
 	script_output_css =  "<style>";
-	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-template-columns: 1fr 1fr; grid-gap: 1rem; padding: 1rem; margin: 0 auto; width: max-content; }";
-	script_output_css += ".card {height: 12em; width: 25em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex;flex-direction:column; align-items: flex-start;background-size: cover;background-position: center;box-shadow: 0 0 5em -1em black; position: relative; overflow: hidden; border: 1px solid lime; text-decoration: none; text-align: left;}";
+	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 1rem; grid-template-columns: 1fr 1fr; padding: 1rem 0rem; margin: 0 auto; width: max-content; }";
+	script_output_css += ".cards-wrapper-1col { grid-template-columns: 1fr; }";
+	script_output_css += ".card {height: 12em; width: 28em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex; box-shadow: 0 0 5em -1em black; border: 1px solid lime; text-decoration: none; text-align: left;}";
+	script_output_css += ".card-double-size {width: 56em; }";
 	script_output_css += ".colored .white {color:white; }";
 	script_output_css += ".colored .card .true {color:darkgreen; }";
 	script_output_css += ".colored .card .purple {color:purple; }";
@@ -40,11 +42,14 @@ function panel_referral_init(){
 	script_output_css += " @media screen and (max-width: 500px) { .card {max-width: calc(100vw - 4rem); } } ";
 	script_output_css += "</style>";
 
+
 	script_output =  "<div class='center free_play_bonus_box_large script_referral colored' id='script_referral'>";
 	script_output += "<h1>Multiply Betting System v."+script_version+"</h1>";
 	script_output += "<h2>Just for referrals</h2>";
-	script_output += "<div class='cards-wrapper white'>";
+	script_output += "<div class='cards-wrapper cards-wrapper-1col white'>";
 	
+	script_output += "<div class='cards-wrapper'>";	
+
 	script_output += "<div id='card1' class='card'>";
 	script_output += "<h3>Settings</h3>";
 	script_output += "<span>Multiply: <span id='ref_multiply_status' class='bold'></span></span>";
@@ -69,7 +74,14 @@ function panel_referral_init(){
 
 	script_output += "<div id='card4' class='card'>";
 	script_output += "<canvas id='myChart'></canvas>";
+	script_output += "</div>"; //card 4 close
+	script_output += "</div>"; //card wrapper 4 cards close
+
+	script_output += "<div class='cards-wrapper cards-wrapper-1col'>"; //card wrapper 1 card open	
+	script_output += "<div id='card4' class='card card-double-size'>";
+	script_output += "<canvas id='myChart'></canvas>";
 	script_output += "</div>"; //card 3close
+	script_output += "</div>"; //card wrapper 1 cards close
 
 	script_output += "</div>"; //card wrapper close
 	script_output += "</div>"; //main div close 
@@ -118,7 +130,15 @@ function graphs_init () {
 	    },
 
 	    // Configuration options go here
-	    options: {}
+	    options: {
+	    	legend: {
+	            display: true,
+	            labels: {
+	                fontColor: 'rgb(255, 99, 132)',
+	                fontSize: 11
+	            }
+        	}
+    	}
 	});
 }
 
