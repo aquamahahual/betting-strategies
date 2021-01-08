@@ -20,7 +20,7 @@ function panel_referral_init(){
 
 	script_output_css =  "<style>";
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-template-columns: 1fr 1fr; grid-gap: 1rem; padding: 1rem; margin: 0 auto; width: max-content; }";
-	script_output_css += ".card {height: 12em; width: 20em; font-size: 1em; border-radius: 1em ;padding: 1em; display: flex;flex-direction:column; align-items: flex-start;background-size: cover;background-position: center;box-shadow: 0 0 5em -1em black; position: relative; overflow: hidden; border: 1px solid lime; text-decoration: none; text-align: left;}"
+	script_output_css += ".card {height: 12em; width: 25em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex;flex-direction:column; align-items: flex-start;background-size: cover;background-position: center;box-shadow: 0 0 5em -1em black; position: relative; overflow: hidden; border: 1px solid lime; text-decoration: none; text-align: left;}"
 	script_output_css += ".colored .white {color:white; }";
 	script_output_css += ".colored .card .true {color:darkgreen; }";
 	script_output_css += ".colored .card .purple {color:purple; }";
@@ -31,10 +31,9 @@ function panel_referral_init(){
 	script_output_css += ".script_referral h1 {font-size: 1.4em; margin: 0;}";
 	script_output_css += ".script_referral h2 {font-size: 1.2em; color: #28731a; margin:0; }";
 	script_output_css += ".script_referral.grayed {color: #a9a9a9}";
-	
-
 	script_output_css += ".card .false {color:darkred; }";
 	script_output_css += ".card h3 {font-size:1.2em; }";
+	script_output_css += " @media screen and (max-width: 900px) {.cards-wrapper { grid-template-columns: 1fr; }}@media screen and (max-width: 500px) {.card {max-width: calc(100vw - 4rem);}}";
 	script_output_css += "</style>";
 
 	script_output =  "<div class='center free_play_bonus_box_large script_referral colored' id='script_referral'>";
@@ -60,8 +59,8 @@ function panel_referral_init(){
 	script_output += "</div>"; //card 2 close
 	
 	script_output += "<div id='card3' class='card'>";
-	script_output += "<span>Max Consecutive Losts Session: <span id='ref_multiply_max_consecutive_losts'></span></span>";
-	script_output += "<span>Max Consecutive Losts Always: <span id='ref_multiply_max_consecutive_losts'>"+max_consecutive_losts+"</span></span>";
+	script_output += "<span>Max Consecutive Losess (Session): <span id='ref_multiply_max_consecutive_losts'></span></span>";
+	script_output += "<span>Max Consecutive Losses (Always): <span id='ref_multiply_max_consecutive_losts'>"+max_consecutive_losts+"</span></span>";
 	script_output += "</div>"; //card 3close
 	script_output += "</div>"; //card wrapper close
 	script_output += "</div>"; //main div close 
