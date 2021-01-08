@@ -2,8 +2,8 @@ var script_version = 0.1;
 
 (function() {
     'use strict';
-
-    panel_referral_init();
+    setTimeout(function(){ panel_referral_init(); }, 1000 );
+    
 
 })();
 var max_consecutive_losts = G_getCookie('max_consecutive_losts');
@@ -80,21 +80,20 @@ function panel_referral_init(){
 	} else if (G_GAME_TYPE == 3) {
 		$('#ref_multiply_game_type').text('Mart Min losses Incr');	
 	}
-
-	function G_getCookie(cname) {
-	  var name = cname + "=";
-	  var decodedCookie = decodeURIComponent(document.cookie);
-	  var ca = decodedCookie.split(';');
-	  for(var i = 0; i <ca.length; i++) {
-	    var c = ca[i];
-	    while (c.charAt(0) == ' ') {
-	      c = c.substring(1);
-	    }
-	    if (c.indexOf(name) == 0) {
-	      return c.substring(name.length, c.length);
-	    }
-	  }
-	  return "";
-	}
 }
 
+function G_getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
