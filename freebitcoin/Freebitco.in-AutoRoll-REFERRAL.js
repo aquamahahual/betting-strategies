@@ -2,6 +2,9 @@ var script_version = 0.1;
 
 (function() {
     'use strict';
+    var script_output_js = "<script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0' />";
+	$('head').append(script_output_js);
+
     setTimeout(function(){ panel_referral_init(); }, 1200 );
     setTimeout(function(){ graphs_init(); }, 2500 );
 
@@ -16,9 +19,9 @@ if ( isNaN(parseFloat(tot_multiply_bets)) ) tot_multiply_bets = 0;
 
 
 function panel_referral_init(){
-	var script_output_css, script_output, script_output_js;
+	var script_output_css, script_output;
 
-	script_output_js =   "<script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0' />";
+	
 
 	script_output_css =  "<style>";
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-template-columns: 1fr 1fr; grid-gap: 1rem; padding: 1rem; margin: 0 auto; width: max-content; }";
@@ -74,7 +77,7 @@ function panel_referral_init(){
 	script_output += "</div>"; //main div close 
 
 	$('head').append(script_output_css);
-	$('head').append(script_output_js);
+	
 	$('#script_output').after(script_output);
 
 	if (Boolean(G_MULTIPLY)) {
@@ -98,6 +101,8 @@ function panel_referral_init(){
 } 
 
 function graphs_init () {
+	
+
 	var ctx = document.getElementById('myChart').getContext('2d');
 	var chart = new Chart(ctx, {
 	    // The type of chart we want to create
