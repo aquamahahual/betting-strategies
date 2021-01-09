@@ -24,9 +24,12 @@ function panel_referral_init(){
 	script_output_css =  "<style>";
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 1rem; grid-template-columns: 1fr 1fr; padding: 1rem 0rem; margin: 0 auto; width: max-content; }";
 	script_output_css += ".cards-wrapper-1col { grid-template-columns: 1fr; }";
+	script_output_css += ".cards-column-wrapper { display: grid; justify-content: center; grid-template-columns: 1fr 1fr; margin: 0 auto; grid-gap: 0.2em; }";	
 	script_output_css += ".card {position: relative; height: 12em; width: 28em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex; flex-direction: column; background-color:#666; box-shadow: 0 0 5em -1em black; border: 1px solid lime; text-decoration: none; text-align: left;}";
 	script_output_css += ".card-double-size {width: 56em; }";
-	script_output_css += ".card-column-wrapper { display: grid; justify-content: center; grid-template-columns: 1fr 1fr; margin: 0 auto;  }";
+	script_output_css += ".card-column {border: 1px solid grey; display: flex; flex-direction: column; }";
+	script_output_css += ".card-button {border: 1px solid grey; padding: 0.3em; background-color: beige; color: black; width:6m; border-radius:2px; display: flex; flex-direction: column; text-align: center;}";
+	script_output_css += ".card-button-num {font-size: 1.4em;}";
 	script_output_css += ".colored .white {color:white; }";
 	script_output_css += ".colored .card .purple {color:plum; }";
 	script_output_css += ".colored .card .coral {color:coral; }";
@@ -51,31 +54,25 @@ function panel_referral_init(){
 	
 	script_output += "<div class='cards-wrapper'>";	
 
-	script_output += "<div id='card1' class='card-column-wrapper card'>";
+	script_output += "<div id='card1' class='card'>";
+	script_output += "<div id='card1' class='cards-column-wrapper'>";
 	script_output += "<h3>General Settings</h3>";
 	script_output += "<div id='card1-left' class='card-column'>";
 	script_output += "<span>Multiply: <span id='ref_multiply_status' class='bold'></span></span>";
 	script_output += "<span>Multiply at night: <span id='ref_multiply_at_night' class='bold'></span></span>";
-	script_output += "<span>Wait Hours: <span class='bold lime'>"+G_MULTIPLY_WAIT_HOURS+"</span></span>";
 	script_output += "<span>Mode: <span id='ref_multiply_game_mode' class='bold purple'></span></span>";
 	script_output += "<span>Type: <span id='ref_multiply_game_type' class='bold purple'></span></span>";
 	script_output += "<span>Speed: <span id='ref_multiply_speed' class='bold coral'></span></span>";
-	script_output += "<span>Max Rolls: <span class='bold coral'>"+G_MAX_ROLLS_AT_MULTIPLY+"</span></span>";
-	script_output += "<span>Max Plays: <span class='bold coral'>"+G_MAX_PLAY+" </span>and stop</span>";
 	script_output += "</div>"; //card 1 left close
 	script_output += "<div id='card1-right' class='card-column'>";
-	script_output += "<h3>General Settings</h3>";
-	script_output += "<span>Multiply: <span id='ref_multiply_status' class='bold'></span></span>";
-	script_output += "<span>Multiply at night: <span id='ref_multiply_at_night' class='bold'></span></span>";
-	script_output += "<span>Wait Hours: <span class='bold lime'>"+G_MULTIPLY_WAIT_HOURS+"</span></span>";
-	script_output += "<span>Mode: <span id='ref_multiply_game_mode' class='bold purple'></span></span>";
-	script_output += "<span>Type: <span id='ref_multiply_game_type' class='bold purple'></span></span>";
-	script_output += "<span>Speed: <span id='ref_multiply_speed' class='bold coral'></span></span>";
-	script_output += "<div id='card1-buttons-container' class='card-column-wrapper'>"
-	script_output += "<div class='card-column' style='width:6em;'><span>Max Rolls: <span class='bold coral'>"+G_MAX_ROLLS_AT_MULTIPLY+"</span></span></div>";
-	script_output += "<div class='card-column' style='width:6em;'><span>Max Plays: <span class='bold coral'>"+G_MAX_PLAY+" </span></span></div>";
+	script_output += "<div id='card1-buttons-container' class='cards-column-wrapper'>"
+	script_output += "<div class='card-button'><span>Missing Hrs</span><span id='ref_multiply_missing_hours' class='bold coral card-button-num'></span></div>";
+	script_output += "<div class='card-button'><span>Wait Hours</span><span class='bold coral card-button-num'>"+G_MULTIPLY_WAIT_HOURS+"</span></div>";
+	script_output += "<div class='card-button'><span>Max Rolls </span><span class='bold coral card-button-num'>"+G_MAX_ROLLS_AT_MULTIPLY+"</span></div>";
+	script_output += "<div class='card-button'><span>Max Plays </span><span class='bold coral card-button-num'>"+G_MAX_PLAY+" </span></div>";
 	script_output += "</div>"; //card 1 right buttons close
 	script_output += "</div>"; //card 1 right close
+	script_output += "</div>"; //card 1 column wrapper close
 	script_output += "</div>"; //card 1 close
 
 	script_output += "<div id='card2' class='card'>";
