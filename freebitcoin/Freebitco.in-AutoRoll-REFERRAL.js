@@ -34,7 +34,7 @@ function panel_referral_init(){
 	script_output_css += ".card {position: relative; height: 12em; width: 28em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex; flex-direction: column; background-color:#666; box-shadow: 0 0 5em -1em black; border: 1px solid lime; text-decoration: none; text-align: left;}";
 	script_output_css += ".card-double-size {width: 56em; }";
 	script_output_css += ".card-column {display: flex; flex-direction: column; }";
-	script_output_css += ".card-button {border: 1px solid grey; box-shadow: 0 0 5em -1em white; padding: 0.3em; background-color: beige; color: black; width:6m; border-radius:2px; display: flex; flex-direction: column; text-align: center;}";
+	script_output_css += ".card-button {border: 1px solid grey; box-shadow: 0 0 5em -1em white; padding: 0.3em; background-color: beige; color: black; border-radius:10px; display: flex; flex-direction: column; text-align: center;}";
 	script_output_css += ".card-button-num {font-size: 1.4em;}";
 	script_output_css += ".colored .white {color:white; }";
 	script_output_css += ".colored .card .purple {color:plum; }";
