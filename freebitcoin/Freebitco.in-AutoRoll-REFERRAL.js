@@ -24,11 +24,11 @@ function panel_referral_init(){
 	script_output_css =  "<style>";
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 1rem; grid-template-columns: 1fr 1fr; padding: 1rem 0rem; margin: 0 auto; width: max-content; }";
 	script_output_css += ".cards-wrapper-1col { grid-template-columns: 1fr; }";
-	script_output_css += ".card {height: 12em; width: 28em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex; flex-direction: column; background-color:#666; box-shadow: 0 0 5em -1em black; border: 1px solid lime; text-decoration: none; text-align: left;}";
+	script_output_css += ".card {position: relative; height: 12em; width: 28em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex; flex-direction: column; background-color:#666; box-shadow: 0 0 5em -1em black; border: 1px solid lime; text-decoration: none; text-align: left;}";
 	script_output_css += ".card-double-size {width: 56em; }";
+	script_output_css += ".card-column-wrapper { display: grid; justify-content: center; grid-template-columns: 1fr 1fr; margin: 0 auto;  }";
 	script_output_css += ".colored .white {color:white; }";
 	script_output_css += ".colored .card .purple {color:plum; }";
-	script_output_css += ".colored .card .brown {color:darkorange; }";
 	script_output_css += ".colored .card .coral {color:coral; }";
 	script_output_css += ".colored .card .lime {color:lime; }";
 	script_output_css += ".colored .card .lgrey {color:#bbb; }";
@@ -38,7 +38,7 @@ function panel_referral_init(){
 	script_output_css += ".script_referral.grayed {color: #a9a9a9}";
 	script_output_css += ".card .true {color:lime; }";
 	script_output_css += ".card .false {color:darkred; }";
-	script_output_css += ".card h3 {font-size:1.2em; color: aquamarine; }";
+	script_output_css += ".card h3 {font-size:1.3em; color: aquamarine; position: absolute; top:-1em; left: 0; }";
 	script_output_css += " @media screen and (max-width: 900px) { .cards-wrapper { grid-template-columns: 1fr; } } "; 
 	script_output_css += " @media screen and (max-width: 500px) { .card {max-width: calc(100vw - 4rem); } } ";
 	script_output_css += "</style>";
@@ -51,8 +51,9 @@ function panel_referral_init(){
 	
 	script_output += "<div class='cards-wrapper'>";	
 
-	script_output += "<div id='card1' class='card'>";
+	script_output += "<div id='card1' class='card-column-wrapper card'>";
 	script_output += "<h3>General Settings</h3>";
+	script_output += "<div id='card1-left' class='card-column'>";
 	script_output += "<span>Multiply: <span id='ref_multiply_status' class='bold'></span></span>";
 	script_output += "<span>Multiply at night: <span id='ref_multiply_at_night' class='bold'></span></span>";
 	script_output += "<span>Wait Hours: <span class='bold lime'>"+G_MULTIPLY_WAIT_HOURS+"</span></span>";
@@ -61,6 +62,20 @@ function panel_referral_init(){
 	script_output += "<span>Speed: <span id='ref_multiply_speed' class='bold coral'></span></span>";
 	script_output += "<span>Max Rolls: <span class='bold coral'>"+G_MAX_ROLLS_AT_MULTIPLY+"</span></span>";
 	script_output += "<span>Max Plays: <span class='bold coral'>"+G_MAX_PLAY+" </span>and stop</span>";
+	script_output += "</div>"; //card 1 left close
+	script_output += "<div id='card1-right' class='card-column'>";
+	script_output += "<h3>General Settings</h3>";
+	script_output += "<span>Multiply: <span id='ref_multiply_status' class='bold'></span></span>";
+	script_output += "<span>Multiply at night: <span id='ref_multiply_at_night' class='bold'></span></span>";
+	script_output += "<span>Wait Hours: <span class='bold lime'>"+G_MULTIPLY_WAIT_HOURS+"</span></span>";
+	script_output += "<span>Mode: <span id='ref_multiply_game_mode' class='bold purple'></span></span>";
+	script_output += "<span>Type: <span id='ref_multiply_game_type' class='bold purple'></span></span>";
+	script_output += "<span>Speed: <span id='ref_multiply_speed' class='bold coral'></span></span>";
+	script_output += "<div id='card1-buttons-container' class='card-column-wrapper'>"
+	script_output += "<div class='card-column' style='width:6em;'><span>Max Rolls: <span class='bold coral'>"+G_MAX_ROLLS_AT_MULTIPLY+"</span></span></div>";
+	script_output += "<div class='card-column' style='width:6em;'><span>Max Plays: <span class='bold coral'>"+G_MAX_PLAY+" </span></span></div>";
+	script_output += "</div>"; //card 1 right buttons close
+	script_output += "</div>"; //card 1 right close
 	script_output += "</div>"; //card 1 close
 
 	script_output += "<div id='card2' class='card'>";
@@ -74,21 +89,19 @@ function panel_referral_init(){
 	script_output += "<span>Increase Rate: <span class='bold dimgray'>"+G_INCR+"%</span></span>";
 	script_output += "</div>"; //card 2 close
 
-	script_output += "<div id='card2' class='card'>";
-	script_output += "<h3>Stats</h3>";
+	script_output += "<div id='card3' class='card'>";
+	script_output += "<h3>General Stats</h3>";
 	script_output += "<span>Sessions: <span id='ref_multiply_tot_sessions'>"+tot_multiply_sessions+"</span></span>";
 	script_output += "<span>Plays: <span id='ref_multiply_tot_plays'></span></span>";
 	script_output += "<span>Bets: <span id='ref_multiply_tot_bets'>"+tot_multiply_bets+"</span></span>";
-	script_output += "</div>"; //card 2 close
+	script_output += "</div>"; //card 3 close
 	
-	script_output += "<div id='card3' class='card'>";
+	script_output += "<div id='card4' class='card'>";
+	script_output += "<h3>Last Session Stats</h3>";
 	script_output += "<span>Max Consecutive Losess (Session): <span id='ref_multiply_max_consecutive_losts'></span></span>";
 	script_output += "<span>Max Consecutive Losses (Always): <span id='ref_multiply_max_consecutive_losts'>"+max_consecutive_losts+"</span></span>";
-	script_output += "</div>"; //card 3close
+	script_output += "</div>"; //card 4close
 
-	script_output += "<div id='card4' class='card'>";
-	script_output += "<canvas id='myChart'></canvas>";
-	script_output += "</div>"; //card 4 close
 	script_output += "</div>"; //card wrapper 4 cards close
 
 	script_output += "<div class='cards-wrapper cards-wrapper-1col'>"; //card wrapper 1 card open	
@@ -162,12 +175,13 @@ function graphs_init () {
 	    // Configuration options go here
 	    options: {
 	    	legend: {
-	            display: true,
+	            display: false,
 	            labels: {
 	                fontColor: 'rgb(255, 99, 132)',
 	                fontSize: 11
 	            }
-        	}
+        	},
+        	aspectRatio: 5
     	}
 	});
 }
