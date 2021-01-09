@@ -10,25 +10,31 @@ var script_version = 0.1;
 var max_consecutive_losts = G_getCookie('max_consecutive_losts');
 var tot_multiply_sessions = G_getCookie('tot_multiply_games');
 var tot_multiply_bets = G_getCookie('tot_multiply_bets');
+var last_multiply = Date.parse(G_getCookie("last_multiply"));
 
 if ( isNaN(parseFloat(max_consecutive_losts)) ) max_consecutive_losts = 0;
 if ( isNaN(parseFloat(tot_multiply_sessions)) ) tot_multiply_sessions = 0;
 if ( isNaN(parseFloat(tot_multiply_bets)) ) tot_multiply_bets = 0;
+if ( isNaN(parseFloat(last_multiply)) ) last_multiply = 0;
 
 
 function panel_referral_init(){
-	var script_output_css, script_output;
 
-	
+	var d = new Date();
+	var last_multiply_diff = Math.floor(d.getTime() - last_multiply);
+	var milli_between_multiplies = Math.floor(G_MULTIPLY_WAIT_HOURS*60*60*1000);
+
+
+	var script_output_css, script_output;	
 
 	script_output_css =  "<style>";
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 1rem; grid-template-columns: 1fr 1fr; padding: 1rem 0rem; margin: 0 auto; width: max-content; }";
 	script_output_css += ".cards-wrapper-1col { grid-template-columns: 1fr; }";
-	script_output_css += ".cards-column-wrapper { display: grid; justify-content: center; grid-template-columns: 1fr 1fr; margin: 0 auto; grid-gap: 0.2em; }";	
+	script_output_css += ".cards-column-wrapper { display: grid; justify-content: center; grid-template-columns: 1fr 1fr; margin: 0 auto; grid-gap: 0.5em; }";	
 	script_output_css += ".card {position: relative; height: 12em; width: 28em; font-size: 0.8em; border-radius: 1em ;padding: 1em; display: flex; flex-direction: column; background-color:#666; box-shadow: 0 0 5em -1em black; border: 1px solid lime; text-decoration: none; text-align: left;}";
 	script_output_css += ".card-double-size {width: 56em; }";
-	script_output_css += ".card-column {border: 1px solid grey; display: flex; flex-direction: column; }";
-	script_output_css += ".card-button {border: 1px solid grey; padding: 0.3em; background-color: beige; color: black; width:6m; border-radius:2px; display: flex; flex-direction: column; text-align: center;}";
+	script_output_css += ".card-column {display: flex; flex-direction: column; }";
+	script_output_css += ".card-button {border: 1px solid grey; box-shadow: 0 0 5em -1em white; padding: 0.3em; background-color: beige; color: black; width:6m; border-radius:2px; display: flex; flex-direction: column; text-align: center;}";
 	script_output_css += ".card-button-num {font-size: 1.4em;}";
 	script_output_css += ".colored .white {color:white; }";
 	script_output_css += ".colored .card .purple {color:plum; }";
@@ -66,8 +72,8 @@ function panel_referral_init(){
 	script_output += "</div>"; //card 1 left close
 	script_output += "<div id='card1-right' class='card-column'>";
 	script_output += "<div id='card1-buttons-container' class='cards-column-wrapper'>"
-	script_output += "<div class='card-button'><span>Missing Hrs</span><span id='ref_multiply_missing_hours' class='bold coral card-button-num'></span></div>";
-	script_output += "<div class='card-button'><span>Wait Hours</span><span class='bold coral card-button-num'>"+G_MULTIPLY_WAIT_HOURS+"</span></div>";
+	script_output += "<div class='card-button'><span>Wait H</span><span class='bold coral card-button-num'>"+G_MULTIPLY_WAIT_HOURS+"</span></div>";
+	script_output += "<div class='card-button'><span>Missing H</span><span id='ref_multiply_missing_hours' class='bold coral card-button-num'>"+Math.floor((milli_between_multiplies - last_multiply_diff)/1000/60/60)+"</span></div>";
 	script_output += "<div class='card-button'><span>Max Rolls </span><span class='bold coral card-button-num'>"+G_MAX_ROLLS_AT_MULTIPLY+"</span></div>";
 	script_output += "<div class='card-button'><span>Max Plays </span><span class='bold coral card-button-num'>"+G_MAX_PLAY+" </span></div>";
 	script_output += "</div>"; //card 1 right buttons close
