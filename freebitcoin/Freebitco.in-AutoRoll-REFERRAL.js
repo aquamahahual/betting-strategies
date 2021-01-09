@@ -20,12 +20,13 @@ if ( isNaN(parseFloat(last_multiply)) ) last_multiply = 0;
 
 function panel_referral_init(){
 
+	var script_output_css, script_output;	
+
 	var d = new Date();
 	var last_multiply_diff = Math.floor(d.getTime() - last_multiply);
 	var milli_between_multiplies = Math.floor(G_MULTIPLY_WAIT_HOURS*60*60*1000);
-
-
-	var script_output_css, script_output;	
+	var ref_multiply_missing_hours = Math.floor((milli_between_multiplies - last_multiply_diff)/1000/60/60);
+	if (ref_multiply_missing_hours < 0) ref_multiply_missing_hours = 0;
 
 	script_output_css =  "<style>";
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 1rem; grid-template-columns: 1fr 1fr; padding: 0.5rem 0rem; margin: 0 auto; width: max-content; }";
@@ -73,7 +74,7 @@ function panel_referral_init(){
 	script_output += "<div id='card1-right' class='card-column'>";
 	script_output += "<div id='card1-buttons-container' class='cards-column-wrapper'>"
 	script_output += "<div class='card-button'><span>Wait H</span><span class='bold coral card-button-num'>"+G_MULTIPLY_WAIT_HOURS+"</span></div>";
-	script_output += "<div class='card-button'><span>Missing H</span><span id='ref_multiply_missing_hours' class='bold coral card-button-num'>"+Math.floor((milli_between_multiplies - last_multiply_diff)/1000/60/60)+"</span></div>";
+	script_output += "<div class='card-button'><span>Missing H</span><span id='ref_multiply_missing_hours' class='bold coral card-button-num'>"+ref_multiply_missing_hours+"</span></div>";
 	script_output += "<div class='card-button'><span>Max Rolls </span><span class='bold coral card-button-num'>"+G_MAX_ROLLS_AT_MULTIPLY+"</span></div>";
 	script_output += "<div class='card-button'><span>Max Plays </span><span class='bold coral card-button-num'>"+G_MAX_PLAY+" </span></div>";
 	script_output += "</div>"; //card 1 right buttons close
