@@ -37,7 +37,7 @@ function panel_referral_init(){
 	script_output_css += ".card {position: relative; height: 12em; width: 28em; font-size: 0.8em; border-radius: 1em ;padding:1.5em 1em; display: flex; flex-direction: column; background-color:#666; box-shadow: 0 0 5em -1em black; border: 1px solid; text-decoration: none; text-align: left;}";
 	script_output_css += ".card-double-size {width: 56em; }";
 	script_output_css += ".card-column {display: flex; flex-direction: column; }";
-	script_output_css += ".card-button {border: 1px solid grey; box-shadow: 0 0 5em -1em white; padding: 0.3em; background-color: beige; color: black; border-radius:10px; display: flex; flex-direction: column; text-align: center;}";
+	script_output_css += ".card-button {border: 1px solid grey; box-shadow: 0 0 5em -1em white; overflow: hidden; padding: 0.3em; background-color: beige; color: black; border-radius:10px; display: flex; flex-direction: column; text-align: center;}";
 	script_output_css += ".card-button-num {font-size: 1.4em; line-height:1.6em;}";
 	script_output_css += ".colored .white {color:white; }";
 	script_output_css += ".colored .card {border-color: lime; }"
@@ -81,7 +81,7 @@ function panel_referral_init(){
 	script_output += "<div id='card1-buttons-container' class='cards-column-wrapper'>" // button wrapper
 	script_output += "<div class='card-button'><span>Wait H</span><span class='bold coral card-button-num'>"+G_MULTIPLY_WAIT_HOURS+"</span></div>";
 	script_output += "<div class='card-button'><span>Missing H</span><span id='ref_multiply_missing_hours' class='bold coral card-button-num'>"+ref_multiply_missing_hours+"</span></div>";
-	script_output += "<div class='card-button'><span>Max Rolls </span><span class='bold coral card-button-num'>"+G_MAX_ROLLS_AT_MULTIPLY+"</span></div>";
+	script_output += "<div class='card-button'><span>Max Bets </span><span class='bold coral card-button-num'>"+G_MAX_ROLLS_AT_MULTIPLY+"</span></div>";
 	script_output += "<div class='card-button'><span>Max Plays </span><span class='bold coral card-button-num'>"+G_MAX_PLAY+" </span></div>";
 	script_output += "</div>"; //card 1 right buttons close
 	script_output += "</div>"; //card 1 right close
@@ -90,10 +90,10 @@ function panel_referral_init(){
 	script_output += "</div>"; //card 1 close
 
 	script_output += "<div id='card2' class='card'>";
-	script_output += "<div id='card1' class='cards-column-wrapper'>"; // card 2 column wrapper
+	script_output += "<div class='cards-column-wrapper'>"; // card 2 column wrapper
 
-	script_output += "<div id='card2-left' class='card-column'>"; //card 2 left
-	script_output += "<div id='card2-buttons-container' class='cards-column-wrapper'>" // button wrapper
+	script_output += "<div class='card-column'>"; //card 2 left
+	script_output += "<div class='cards-column-wrapper'>" // button wrapper
 	script_output += "<div class='card-button'><span>Wait Loss</span><span class='bold coral card-button-num'>"+G_MIN_LOSSES_BEFORE_PLAY+"</span></div>";
 	script_output += "<div class='card-button'><span>Wait Wins</span><span class='bold coral card-button-num'>"+G_WAIT_PLAY_AFTER_LOSSES+"</span></div>";
 	script_output += "<div class='card-button'><span>Odds</span><span class='bold coral card-button-num'>"+G_ODDS+"</span></div>";
@@ -112,13 +112,28 @@ function panel_referral_init(){
 	script_output += "</div>"; //card 2 column wrapper close
 	script_output += "</div>"; //card 2 close
 
-	script_output += "<div id='card3' class='card'>";
-	script_output += "<h3>General Stats</h3>";
+	// CARD 3
+	script_output += "<div id='card3' class='card'>"; // CARD 3
+	script_output += "<div class='cards-column-wrapper'>"; // card 3 column wrapper
+
+	script_output += "<div class='card-column'>"; //card 3 left
+	script_output += "<div class='cards-column-wrapper'>" // button wrapper
+	script_output += "<div class='card-button'><span>Sessions</span><span class='bold coral card-button-num'>"+tot_multiply_sessions+"</span></div>";
+	script_output += "<div class='card-button'><span>Plays</span><span class='bold coral card-button-num'>"+tot_multiply_play+"</span></div>";
+	script_output += "<div class='card-button'><span>Bets</span><span class='bold coral card-button-num'>"+tot_multiply_bets+"</span></div>";
+	script_output += "</div>"; //card 3 left buttons close
+	script_output += "</div>"; //card 3 left close
+
+	script_output += "<div class='card-column' style='text-align: right'>"; //card 3 right
 	script_output += "<span>Sessions: <span id='ref_multiply_tot_sessions'>"+tot_multiply_sessions+"</span></span>";
 	script_output += "<span>Plays: <span id='ref_multiply_tot_plays'></span>"+tot_multiply_play+"</span>";
 	script_output += "<span>Bets: <span id='ref_multiply_tot_bets'>"+tot_multiply_bets+"</span></span>";
+	script_output += "</div>"; //card 3 right close
+
+	script_output += "</div>"; //card 3 column wrapper close
 	script_output += "</div>"; //card 3 close
 	
+	// CARD 4
 	script_output += "<div id='card4' class='card'>";
 	script_output += "<h3>Last Session Stats</h3>";
 	script_output += "<span>Max Consecutive Losess (Session): <span id='ref_multiply_max_consecutive_losts'></span></span>";
