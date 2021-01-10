@@ -30,10 +30,14 @@ function panel_referral_init(){
 	var ref_multiply_missing_hours = Math.floor((milli_between_multiplies - last_multiply_diff)/1000/60/60);
 	if (ref_multiply_missing_hours < 0) ref_multiply_missing_hours = 0;
 
+	var estimate_winnings_session = parseFloat(G_BAS_BET*G_MAX_PLAY).toFixed(8);
+	var estimate_winnings_day = parseFloat( estimate_winnings_session * 24/G_MULTIPLY_WAIT_HOURS).toFixed(8)
+	var estimate_winnings_month = parseFloat(estimate_winnings_day * 30).toFixed(8);
+
 	script_output_css =  "<style>";
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 1rem; grid-template-columns: 1fr 1fr; padding: 0.5rem 0rem; margin: 0 auto; width: max-content; }";
 	script_output_css += ".cards-wrapper-1col { grid-template-columns: 1fr; }";
-	script_output_css += ".cards-column-wrapper { display: grid; justify-content: center; grid-template-columns: 1fr 1fr; margin: 0 auto; grid-gap: 0.5em; }";	
+	script_output_css += ".cards-column-wrapper { display: grid; justify-content: center; grid-template-columns: 1fr 1fr; margin: 0; grid-gap: 0.5em; }";	
 	script_output_css += ".card {position: relative; height: 12em; width: 28em; font-size: 0.8em; border-radius: 1em ;padding:1.5em 1em; display: flex; flex-direction: column; background-color:#666; box-shadow: 0 0 5em -1em black; border: 1px solid; text-decoration: none; text-align: left;}";
 	script_output_css += ".card-double-size {width: 56em; }";
 	script_output_css += ".card-column {display: flex; flex-direction: column; }";
@@ -53,6 +57,9 @@ function panel_referral_init(){
 	script_output_css += ".card .true {color:lime; }";
 	script_output_css += ".card .false {color:darkred; }";
 	script_output_css += ".card h3 {font-size:1.3em; color: aquamarine; position: absolute; top: 0.3em; left: 50%; transform: translate(-50%,0);}";
+	script_output_css += ".card h4 {font-size:1.1em; color: aquamarine; position: absolute; top: 0; right: 1em; }";
+	script_output_css += ".card .mt1 { margin-top:0.5em; }";
+	
 	script_output_css += " @media screen and (max-width: 900px) { .cards-wrapper { grid-template-columns: 1fr; } } "; 
 	script_output_css += " @media screen and (max-width: 500px) { .card {max-width: calc(100vw - 4rem); } } ";
 	script_output_css += "</style>";
@@ -102,9 +109,10 @@ function panel_referral_init(){
 	script_output += "</div>"; //card 2 left close
 
 	script_output += "<div id='card2-right' class='card-column' style='text-align: right'>"; //card 2 right
-	script_output += "<span>Min Bet: <span class='bold lime'>"+parseFloat(G_MIN_BET).toFixed(8)+"</span></span>";
-	script_output += "<span>Bas Bet: <span class='bold lime'>"+parseFloat(G_BAS_BET).toFixed(8)+"</span></span>";
-	script_output += "<span>Max Bet: <span class='bold lime'>"+parseFloat(G_MAX_BET).toFixed(8)+"</span></span>";
+	script_output += "<h4>Bets</h4>";
+	script_output += "<span class='mt1'>Min: <span class='bold lime'>"+parseFloat(G_MIN_BET).toFixed(8)+"</span></span>";
+	script_output += "<span>Base: <span class='bold lime'>"+parseFloat(G_BAS_BET).toFixed(8)+"</span></span>";
+	script_output += "<span>Max: <span class='bold lime'>"+parseFloat(G_MAX_BET).toFixed(8)+"</span></span>";
 	script_output += "<div class='card-button' style='margin: 1em 0 0 2em;'><span>=> Accepted Consecutive Losts: </span><span id='accepted_consecutive_losts' class='bold coral card-button-num'>"+accepted_consecutive_losts+"</span></div>";
 
 	script_output += "</div>"; //card 2 right close
@@ -125,9 +133,10 @@ function panel_referral_init(){
 	script_output += "</div>"; //card 3 left close
 
 	script_output += "<div class='card-column' style='text-align: right'>"; //card 3 right
-	script_output += "<span>Sessions: <span id='ref_multiply_tot_sessions'>"+tot_multiply_sessions+"</span></span>";
-	script_output += "<span>Plays: <span id='ref_multiply_tot_plays'></span>"+tot_multiply_play+"</span>";
-	script_output += "<span>Bets: <span id='ref_multiply_tot_bets'>"+tot_multiply_bets+"</span></span>";
+	script_output += "<h4>Estimated Winnings</h4>";
+	script_output += "<span class='mt1'>Session: <span class='bold lime' >"+estimate_winnings_session+"</span></span>";
+	script_output += "<span>Day: <span class='bold lime'>"+estimate_winnings_day+"</span></span>";
+	script_output += "<span>Month: <span class='bold lime'>"+estimate_winnings_month+"</span></span>";
 	script_output += "</div>"; //card 3 right close
 
 	script_output += "</div>"; //card 3 column wrapper close
@@ -196,7 +205,10 @@ function panel_referral_init(){
 		accepted_consecutive_losts++;
 	}
 	$('#accepted_consecutive_losts').text(accepted_consecutive_losts-1);
+
+
 } 
+
 
 function graphs_init () {
 	var ctx = document.getElementById('myChart').getContext('2d');
@@ -211,7 +223,7 @@ function graphs_init () {
 	            label: 'My First dataset',
 	            backgroundColor: 'rgb(255, 99, 132)',
 	            borderColor: 'rgb(255, 99, 132)',
-	            data: [0, 10, 5, 2, 20, 30, 45]
+	            data: [0.00000100, 0.00000200, 0.00000300, -0.00001200, 0.00000100, 0.00001100, 0.00007100]
 	        }]
 	    },
 
