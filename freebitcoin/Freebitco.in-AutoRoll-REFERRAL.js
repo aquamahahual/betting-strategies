@@ -63,7 +63,8 @@ function panel_referral_init(){
 	script_output_css += ".colored .card .coral {color:coral; }";
 	script_output_css += ".colored .card .lime {color:lime; }";
 	script_output_css += ".colored .card .lgrey {color:#bbb; }";
-
+	script_output_css += ".colored .card .bg-yellow {background-color: #feffa4} ";
+	script_output_css += ".colored .card .bg-orange {background-color: #feffa4; color: #989898;} ";
 	script_output_css += ".script_referral {font-size: 12px; background: #bbb; border: 2px groove #09ff00; margin-bottom: 1em;}";
 	script_output_css += ".script_referral h1 {font-size: 1.4em; margin: 0;}";
 	script_output_css += ".script_referral h2 {font-size: 1.2em; color: #28731a; margin:0; }";
@@ -130,7 +131,7 @@ function panel_referral_init(){
 	script_output += "<span>Min: <span class='bold lime'>"+parseFloat(G_MIN_BET).toFixed(8)+"</span></span>";
 	script_output += "<span>Base: <span class='bold lime'>"+parseFloat(G_BAS_BET).toFixed(8)+"</span></span>";
 	script_output += "<span>Max: <span class='bold lime'>"+parseFloat(G_MAX_BET).toFixed(8)+"</span></span>";
-	script_output += "<div class='card-button' style='margin: 1em 0 0 2em;'><span>=> Accepted Consecutive Losts: </span><span id='accepted_consecutive_losts' class='bold coral card-button-num'>"+accepted_consecutive_losts+"</span></div>";
+	script_output += "<div id='accepted_consecutive_losts' class='card-button' style='margin: 1em 0 0 2em;'><span>=> Accepted Consecutive Losts: </span><span id='accepted_consecutive_losts_num' class='bold coral card-button-num'>"+accepted_consecutive_losts+"</span></div>";
 
 	script_output += "</div>"; //card 2 right close
 
@@ -244,7 +245,7 @@ function panel_referral_init(){
 		stat_bet=stat_bet+(stat_bet*90/100);
 		accepted_consecutive_losts++;
 	}
-	$('#accepted_consecutive_losts').text(accepted_consecutive_losts-1);
+	$('#accepted_consecutive_losts_num').text(accepted_consecutive_losts-1);
 
     // Begin Message Construction
     var balance = parseFloat($('#balance').text()).toFixed(8);
@@ -255,19 +256,21 @@ function panel_referral_init(){
     	message1 = "MAX BET is higher then Balance";
     	message2 = "Decrease MAX_BET";
     	error_code = 3;
-    } else if (accepted_consecutive_losts < 10) {
-    	message1 = "Max accepted lost param is risky";
+    } else if (accepted_consecutive_losts < 10 && G_ODDS>2) {
+    	message1 = "Max accepted Consecutive Lost param is risky";
     	message2 = "Decrease BAS_BET, Increase MAX_BET, Decrease INCR";
+    	$('#accepted_consecutive_losts').addClass('bg-yellow');
     	error_code = 1;
-    } else if (accepted_consecutive_losts < 5 ) {
-    	message1 = "Max accepted lost param is low";
+    } else if (accepted_consecutive_losts < 5 && G_ODDS>2) {
+    	message1 = "Max accepted Consecutive lost param is low";
     	message2 = "Decrease BAS_BET, Increase MAX_BET, Decrease INCR";
+    	$('#accepted_consecutive_losts').addClass('bg-orange');
     	error_code = 2;
     }
 
     if (error_code > 0) {
     	$('#ref_help_message1').text(message1);
-    	$('#ref_help_message2').text(message2);
+    	$('#ref_help_message2').html(message2);
     } 
     if (error_code == 4) $('#ref_help_message').removeClass('lime').addClass('false');
     else if (error_code == 3) $('#ref_help_message').removeClass('lime').addClass('coral');
