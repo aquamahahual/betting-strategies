@@ -242,7 +242,7 @@ function panel_referral_init(){
 
 	var accepted_consecutive_losts=0; stat_bet = G_BAS_BET;
 	while (stat_bet < G_MAX_BET) {
-		stat_bet=stat_bet+(stat_bet*90/100);
+		stat_bet=stat_bet+(stat_bet*G_INCR/100);
 		accepted_consecutive_losts++;
 	}
 	$('#accepted_consecutive_losts_num').text(accepted_consecutive_losts-1);
@@ -252,21 +252,33 @@ function panel_referral_init(){
     var message1 = '';
     var message2 = '';
     var error_code = 0;
+    var oddsincrease = parseFloat(odds_increase(accepted_consecutive_losts-1)).toFixed(8);
+
     if (G_MAX_BET > balance ) {
     	message1 = "MAX BET is higher then Balance";
     	message2 = "Decrease MAX_BET";
     	error_code = 3;
-    } else if (accepted_consecutive_losts < 10 && G_ODDS>2) {
-    	message1 = "Max accepted Consecutive Lost param is risky";
-    	message2 = "Decrease BAS_BET, Increase MAX_BET, Decrease INCR";
-    	$('#accepted_consecutive_losts').addClass('bg-yellow');
-    	error_code = 1;
+    } else if (oddsincrease < 0) {
+    	message1 = "Odds and Increase param not good";
+    	message2 = "Loosing Combination "+oddsincrease+" after "+(accepted_consecutive_losts-1)+" games";
+    	error_code = 3;
     } else if (accepted_consecutive_losts < 5 && G_ODDS>2) {
     	message1 = "Max accepted Consecutive lost param is low";
-    	message2 = "Decrease BAS_BET, Increase MAX_BET, Decrease INCR";
+    	message2 = "Dec BAS_BET, Inc MAX_BET, Dec INCR, Inc ODDS";
     	$('#accepted_consecutive_losts').addClass('bg-orange');
     	error_code = 2;
-    }
+    } else if (oddsincrease < G_BAS_BET) {
+    	message1 = "Odds and Increase param warning";
+    	message2 = "You'll get "+oddsincrease+" after "+(accepted_consecutive_losts-1)+" games";
+    	error_code = 1;
+    } else if (accepted_consecutive_losts < 10 && G_ODDS>2) {
+    	message1 = "Max accepted Consecutive Lost param is risky";
+    	message2 = "Dec BAS_BET, Inc MAX_BET, Dec INCR, Inc ODDS";
+    	$('#accepted_consecutive_losts').addClass('bg-yellow');
+    	error_code = 1;
+    } 
+
+    
 
     if (error_code > 0) {
     	$('#ref_help_message1').text(message1);
@@ -279,6 +291,22 @@ function panel_referral_init(){
   	
 } 
 
+function odds_increase (accepted_consecutive_losts) {
+	var win = 0; var winlessspent; var spent = 0; 
+	var nbet = G_BAS_BET; var nwin;
+	G_ODDS=1.8; G_INCR=125;
+
+	for (i=1; i<=accepted_consecutive_losts; i++){
+		spent += nbet;
+		win = nbet + (nbet * (G_ODDS - 1));
+		winlessspent = win - spent;
+		//console.log(nbet.toFixed(8)+","+spent.toFixed(8)+","+win.toFixed(8));	
+		console.log(winlessspent.toFixed(8));
+		nbet = nbet + (nbet * (G_INCR/100));
+		nwin = nbet + (nbet * (G_ODDS - 1));
+	}
+	return winlessspent;
+}
 
 function graphs_init () {
 	var ctx = document.getElementById('myChart').getContext('2d');
