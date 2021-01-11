@@ -11,6 +11,8 @@ var max_consecutive_losts = G_getCookie('max_consecutive_losts');
 var max_consecutive_losts_inplay = G_getCookie('max_consecutive_losts_inplay');
 var max_consecutive_losts_session = G_getCookie('max_consecutive_losts_session');
 var max_consecutive_losts_inplay_session = G_getCookie('max_consecutive_losts_inplay_session');
+var curr_multiply_balance = G_getCookie('curr_multiply_balance');
+var max_bet_session = G_getCookie('max_bet_session');
 var tot_multiply_sessions = G_getCookie('tot_multiply_games');
 var tot_multiply_bets = G_getCookie('tot_multiply_bets');
 var tot_multiply_play = G_getCookie('tot_multiply_play');
@@ -21,6 +23,8 @@ if ( isNaN(parseInt(max_consecutive_losts_inplay_session))) max_consecutive_lost
 if ( isNaN(parseInt(max_consecutive_losts_session))) max_consecutive_losts_session=0;
 if ( isNaN(parseInt(max_consecutive_losts_inplay)) ) max_consecutive_losts_inplay=0;
 if ( isNaN(parseInt(max_consecutive_losts)) ) max_consecutive_losts = 0;
+if ( isNaN(parseFloat(curr_multiply_balance)) ) curr_multiply_balance=0;
+if ( isNaN(parseFloat(max_bet_session))) max_bet_session=0;
 if ( isNaN(parseFloat(tot_multiply_sessions)) ) tot_multiply_sessions = 0;
 if ( isNaN(parseFloat(tot_multiply_bets)) ) tot_multiply_bets = 0;
 if ( isNaN(parseFloat(tot_multiply_play)) ) tot_multiply_play = 0;
@@ -45,14 +49,17 @@ function panel_referral_init(){
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 1rem; grid-template-columns: 1fr 1fr; padding: 0.5rem 0rem; margin: 0 auto; width: max-content; }";
 	script_output_css += ".cards-wrapper-1col { grid-template-columns: 1fr; }";
 	script_output_css += ".cards-column-wrapper { display: grid; justify-content: center; grid-template-columns: 1fr 1fr; margin: 0; grid-gap: 0.5em; }";	
-	script_output_css += ".card {position: relative; height: 12em; width: 28em; font-size: 0.8em; border-radius: 1em ;padding:1.5em 1em; display: flex; flex-direction: column; background-color:#666; box-shadow: 0 0 5em -1em black; border: 1px solid; text-decoration: none; text-align: left;}";
+	script_output_css += ".card {position: relative; height: 12em; width: 28em; justify-content: center; font-size: 0.8em; border-radius: 1em ;padding:0.8em 1em; display: flex; flex-direction: column; background-color:#666; box-shadow: 0 0 5em -1em black; border: 1px solid; text-decoration: none; text-align: left;}";
 	script_output_css += ".card-double-size {width: 56em; }";
-	script_output_css += ".card-column {display: flex; flex-direction: column; }";
+	script_output_css += ".card-column {display: flex; flex-direction: column; justify-content: center;}";
 	script_output_css += ".card-button {border: 1px solid grey; box-shadow: 0 0 5em -1em white; overflow: hidden; padding: 0.3em; background-color: beige; color: black; border-radius:10px; display: flex; flex-direction: column; text-align: center;}";
+	script_output_css += ".card-button:hover {    background-color: #efefef;}";
 	script_output_css += ".card-button-num {font-size: 1.4em; margin-top:0.2em;}";
 	script_output_css += ".colored .white {color:white; }";
 	script_output_css += ".colored .card {border-color: lime; }"
 	script_output_css += ".colored .card .purple {color:plum; }";
+	script_output_css += ".colored .card .orange {color: #ffc250} ";
+	script_output_css += ".colored .card .yellow {color: #fbff50} ";
 	script_output_css += ".colored .card .coral {color:coral; }";
 	script_output_css += ".colored .card .lime {color:lime; }";
 	script_output_css += ".colored .card .lgrey {color:#bbb; }";
@@ -65,8 +72,10 @@ function panel_referral_init(){
 	script_output_css += ".card .false {color:darkred; }";
 	script_output_css += ".card h3 {font-size:1.3em; color: aquamarine; position: absolute; top: 0.3em; left: 50%; transform: translate(-50%,0);}";
 	script_output_css += ".card h4 {font-size:1.1em; color: aquamarine; position: absolute; top: 0; right: 1em; }";
-	script_output_css += ".card h5 {font-size:1.1em; color: aquamarine; margin: 0.3em 0 0 0;}";	
+	script_output_css += ".card h5 {font-size:1.1em; color: aquamarine; margin:0}";	
 	script_output_css += ".card .mt1 { margin-top:0.5em; }";
+	script_output_css += ".card .mb1 { margin-bottom:0.5em; }";
+
 	
 	script_output_css += " @media screen and (max-width: 900px) { .cards-wrapper { grid-template-columns: 1fr; } } "; 
 	script_output_css += " @media screen and (max-width: 500px) { .card {max-width: calc(100vw - 4rem); } } ";
@@ -117,8 +126,8 @@ function panel_referral_init(){
 	script_output += "</div>"; //card 2 left close
 
 	script_output += "<div id='card2-right' class='card-column' style='text-align: right'>"; //card 2 right
-	script_output += "<h4>Bets</h4>";
-	script_output += "<span class='mt1'>Min: <span class='bold lime'>"+parseFloat(G_MIN_BET).toFixed(8)+"</span></span>";
+	script_output += "<h5>Bets</h5>";
+	script_output += "<span>Min: <span class='bold lime'>"+parseFloat(G_MIN_BET).toFixed(8)+"</span></span>";
 	script_output += "<span>Base: <span class='bold lime'>"+parseFloat(G_BAS_BET).toFixed(8)+"</span></span>";
 	script_output += "<span>Max: <span class='bold lime'>"+parseFloat(G_MAX_BET).toFixed(8)+"</span></span>";
 	script_output += "<div class='card-button' style='margin: 1em 0 0 2em;'><span>=> Accepted Consecutive Losts: </span><span id='accepted_consecutive_losts' class='bold coral card-button-num'>"+accepted_consecutive_losts+"</span></div>";
@@ -141,10 +150,10 @@ function panel_referral_init(){
 	script_output += "</div>"; //card 3 left close
 
 	script_output += "<div class='card-column' style='text-align: right'>"; //card 3 right
-	script_output += "<h4>Estimated Winnings</h4>";
-	script_output += "<span class='mt1'>Session: <span class='bold lime' >"+estimate_winnings_session+"</span></span>";
+	script_output += "<h5>Estimated Winnings</h5>";
+	script_output += "<span>Session: <span class='bold lime' >"+estimate_winnings_session+"</span></span>";
 	script_output += "<span>Day: <span class='bold lime'>"+estimate_winnings_day+"</span></span>";
-	script_output += "<span>Month: <span class='bold lime'>"+estimate_winnings_month+"</span></span>";
+	script_output += "<span class='mb1'>Month: <span class='bold lime'>"+estimate_winnings_month+"</span></span>";
 	script_output += "<h5>Max Consecutive Losts</h5>";
 	script_output += "<span>Total: <span class='bold lime' >"+max_consecutive_losts+"</span></span>";
 	script_output += "<span>In Play: <span class='bold lime'>"+max_consecutive_losts_inplay+"</span></span>";
@@ -155,9 +164,29 @@ function panel_referral_init(){
 	
 	// CARD 4
 	script_output += "<div id='card4' class='card'>";
-	script_output += "<h3>Last Session Stats</h3>";
-	script_output += "<span>Max Consecutive Losess (Session): <span id='ref_multiply_max_consecutive_losts'></span></span>";
-	script_output += "<span>Max Consecutive Losses (Always): <span id='ref_multiply_max_consecutive_losts'>"+max_consecutive_losts+"</span></span>";
+	script_output += "<div class='cards-column-wrapper'>" // 4 column wrapper
+	script_output += "<div class='card-column' >";
+	script_output += "<h5>Max Consecutive Losts</h5>";
+	script_output += "<h5>Session</h5>";
+	script_output += "<div class='cards-column-wrapper'>" // button wrapper
+	script_output += "<div class='card-button'><span>In Play</span><span class='bold coral card-button-num'>"+max_consecutive_losts_inplay_session+"</span></div>";
+	script_output += "<div class='card-button'><span>Total</span><span class='bold coral card-button-num'>"+max_consecutive_losts_session+"</span></div>";
+	script_output += "</div>"; //card 4 button wraper close	
+	script_output += "</div>"; //card 4 column close	
+	script_output += "<div class='card-column' style='text-align: right'>"; // column right
+	script_output += "<h5>Last Session Stats</h5>";	
+	script_output += "<span>Max Bet: <span class='bold lime'>"+max_bet_session.toFixed(8)+"</span></span>";
+	script_output += "<span>Balance: <span class='bold lime'>"+curr_multiply_balance.toFixed(8)+"</span></span>";
+	script_output += "</div>"; //card 4 column close
+	script_output += "</div>"; //card 4 column wrapper close
+
+	script_output += "<div class='card-column mt1' style='text-align: center'>"; // central column
+	script_output += "<h5>Messages</h5>";	
+	script_output += "<span id='ref_help_message' class='lime'>";
+	script_output += "<span id='ref_help_message1' class='bold'> Configuration is ok </span><br />";
+	script_output += "<span id='ref_help_message2' style='font-size:0.8em;'></span>";
+	script_output += "</span>";
+	script_output += "</div>"; //card 4 column close
 	script_output += "</div>"; //card 4close
 
 	script_output += "</div>"; //card wrapper 4 cards close
@@ -217,7 +246,34 @@ function panel_referral_init(){
 	}
 	$('#accepted_consecutive_losts').text(accepted_consecutive_losts-1);
 
+    // Begin Message Construction
+    var balance = parseFloat($('#balance').text()).toFixed(8);
+    var message1 = '';
+    var message2 = '';
+    var error_code = 0;
+    if (G_MAX_BET > balance ) {
+    	message1 = "MAX BET is higher then Balance";
+    	message2 = "Decrease MAX_BET";
+    	error_code = 3;
+    } else if (accepted_consecutive_losts < 10) {
+    	message1 = "Max accepted lost param is risky";
+    	message2 = "Decrease BAS_BET, Increase MAX_BET, Decrease INCR";
+    	error_code = 1;
+    } else if (accepted_consecutive_losts < 5 ) {
+    	message1 = "Max accepted lost param is low";
+    	message2 = "Decrease BAS_BET, Increase MAX_BET, Decrease INCR";
+    	error_code = 2;
+    }
 
+    if (error_code > 0) {
+    	$('#ref_help_message1').text(message1);
+    	$('#ref_help_message2').text(message2);
+    } 
+    if (error_code == 4) $('#ref_help_message').removeClass('lime').addClass('false');
+    else if (error_code == 3) $('#ref_help_message').removeClass('lime').addClass('coral');
+  	else if (error_code == 2) $('#ref_help_message').removeClass('lime').addClass('orange');  
+  	else if (error_code == 1) $('#ref_help_message').removeClass('lime').addClass('yellow');  
+  	
 } 
 
 
