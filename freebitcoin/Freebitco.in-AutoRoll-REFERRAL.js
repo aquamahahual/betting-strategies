@@ -53,7 +53,7 @@ function panel_referral_init(){
 	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 1rem; grid-template-columns: 1fr 1fr; padding: 0.5rem 0rem; margin: 0 auto; width: max-content; }";
 	script_output_css += ".cards-wrapper-1col { grid-template-columns: 1fr; }";
 	script_output_css += ".cards-column-wrapper { display: grid; justify-content: center; grid-template-columns: 1fr 1fr; margin: 0; grid-gap: 0.5em; }";	
-	script_output_css += ".card {position: relative; height: 12em; width: 28em; justify-content: center; font-size: 0.8em; border-radius: 1em ;padding:0.8em 1em; display: flex; flex-direction: column; background-color:#666; box-shadow: 0 0 5em -1em black; border: 1px solid; text-decoration: none; text-align: left;}";
+	script_output_css += ".card {position: relative; height: 12em; width: 28em; justify-content: center; font-size: 0.8em; border-radius: 1em ;padding:0.8em 1em; display: flex; flex-direction: column; background-color:#353535; box-shadow: 0 0 5em -1em black; border: 1px solid; text-decoration: none; text-align: left;}";
 	script_output_css += ".card-double-size {width: 56em; }";
 	script_output_css += ".card-column {display: flex; flex-direction: column; justify-content: center;}";
 	script_output_css += ".card-button {border: 1px solid grey; box-shadow: 0 0 5em -1em white; overflow: hidden; padding: 0.3em; background-color: beige; color: black; border-radius:10px; display: flex; flex-direction: column; text-align: center;}";
@@ -180,8 +180,8 @@ function panel_referral_init(){
 	script_output += "</div>"; //card 4 column close	
 	script_output += "<div class='card-column' style='text-align: right'>"; // column right
 	script_output += "<h5>Last Session Stats</h5>";	
-	script_output += "<span>Max Bet: <span class='bold lime'>"+max_bet_session.toFixed(8)+"</span></span>";
-	script_output += "<span>Balance: <span class='bold lime'>"+curr_multiply_balance.toFixed(8)+"</span></span>";
+	script_output += "<span>Max Bet: <span class='bold lime'>"+parseFloat(max_bet_session).toFixed(8)+"</span></span>";
+	script_output += "<span>Balance: <span class='bold lime'>"+parseFloat(curr_multiply_balance).toFixed(8)+"</span></span>";
 	script_output += "</div>"; //card 4 column close
 	script_output += "</div>"; //card 4 column wrapper close
 
