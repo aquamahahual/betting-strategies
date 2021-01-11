@@ -294,7 +294,7 @@ function panel_referral_init(){
 function odds_increase (accepted_consecutive_losts) {
 	var win = 0; var winlessspent; var spent = 0; 
 	var nbet = G_BAS_BET; var nwin;
-	G_ODDS=3; G_INCR=40;
+	//G_ODDS=3; G_INCR=40;
 
 	for (i=1; i<=accepted_consecutive_losts; i++){
 		spent += nbet;
