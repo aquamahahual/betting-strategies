@@ -42,7 +42,11 @@ function panel_referral_init(){
 	if (ref_multiply_missing_hours < 0) ref_multiply_missing_hours = 0;
 
 	var estimate_winnings_session = parseFloat(G_BAS_BET*G_MAX_PLAY).toFixed(8);
-	var estimate_winnings_day = parseFloat( estimate_winnings_session * 24/G_MULTIPLY_WAIT_HOURS).toFixed(8)
+	if (G_MULTIPLY_WAIT_HOURS == 0) {
+		var estimate_winnings_day = parseFloat( estimate_winnings_session * 24 * G_ROLL_P/10).toFixed(8)
+	} else {
+		var estimate_winnings_day = parseFloat( estimate_winnings_session * (24/G_MULTIPLY_WAIT_HOURS) * G_ROLL_P/10).toFixed(8)
+	}
 	var estimate_winnings_month = parseFloat(estimate_winnings_day * 30).toFixed(8);
 
 	script_output_css =  "<style>";
@@ -294,14 +298,13 @@ function panel_referral_init(){
 function odds_increase (accepted_consecutive_losts) {
 	var win = 0; var winlessspent; var spent = 0; 
 	var nbet = G_BAS_BET; var nwin;
-	//G_ODDS=3; G_INCR=40;
 
 	for (i=1; i<=accepted_consecutive_losts; i++){
 		spent += nbet;
 		win = nbet + (nbet * (G_ODDS - 1));
 		winlessspent = win - spent;
 		console.log("--bet:"+nbet.toFixed(8)+",spent:"+spent.toFixed(8)+",win:"+win.toFixed(8)+",diff:"+winlessspent.toFixed(8));	
-		nbet = nbet + (nbet * (G_INCR/100));
+		nbet = nbet + (nbet * (G_INCR / 100));
 		nwin = nbet + (nbet * (G_ODDS - 1));
 	}
 	return winlessspent;
