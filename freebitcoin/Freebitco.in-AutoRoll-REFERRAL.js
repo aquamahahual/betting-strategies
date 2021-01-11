@@ -49,7 +49,7 @@ function panel_referral_init(){
 	script_output_css += ".card-double-size {width: 56em; }";
 	script_output_css += ".card-column {display: flex; flex-direction: column; }";
 	script_output_css += ".card-button {border: 1px solid grey; box-shadow: 0 0 5em -1em white; overflow: hidden; padding: 0.3em; background-color: beige; color: black; border-radius:10px; display: flex; flex-direction: column; text-align: center;}";
-	script_output_css += ".card-button-num {font-size: 1.4em; line-height:1.6em;}";
+	script_output_css += ".card-button-num {font-size: 1.4em; margin-top:0.2em;}";
 	script_output_css += ".colored .white {color:white; }";
 	script_output_css += ".colored .card {border-color: lime; }"
 	script_output_css += ".colored .card .purple {color:plum; }";
@@ -65,7 +65,7 @@ function panel_referral_init(){
 	script_output_css += ".card .false {color:darkred; }";
 	script_output_css += ".card h3 {font-size:1.3em; color: aquamarine; position: absolute; top: 0.3em; left: 50%; transform: translate(-50%,0);}";
 	script_output_css += ".card h4 {font-size:1.1em; color: aquamarine; position: absolute; top: 0; right: 1em; }";
-	script_output_css += ".card h5 {font-size:1.1em; color: aquamarine; margin-top: 0.3em;}";	
+	script_output_css += ".card h5 {font-size:1.1em; color: aquamarine; margin: 0.3em 0 0 0;}";	
 	script_output_css += ".card .mt1 { margin-top:0.5em; }";
 	
 	script_output_css += " @media screen and (max-width: 900px) { .cards-wrapper { grid-template-columns: 1fr; } } "; 
@@ -141,7 +141,7 @@ function panel_referral_init(){
 	script_output += "</div>"; //card 3 left close
 
 	script_output += "<div class='card-column' style='text-align: right'>"; //card 3 right
-	script_output += "<h5>Estimated Winnings</h5>";
+	script_output += "<h4>Estimated Winnings</h4>";
 	script_output += "<span class='mt1'>Session: <span class='bold lime' >"+estimate_winnings_session+"</span></span>";
 	script_output += "<span>Day: <span class='bold lime'>"+estimate_winnings_day+"</span></span>";
 	script_output += "<span>Month: <span class='bold lime'>"+estimate_winnings_month+"</span></span>";
@@ -197,17 +197,17 @@ function panel_referral_init(){
 	}  
 
 	if (G_GAME_MODE == 0) {
-		$("#ref_multiply_game_mode").text('Manual');
-	} else $("#ref_multiply_game_mode").text('Auto');
+		$("#ref_multiply_game_mode").text('Manual sim');
+	} else $("#ref_multiply_game_mode").text('Auto sim');
 
 	if (G_GAME_TYPE == 0) {
 		$('#ref_multiply_game_type').text('Mart Classic (0)');	
 	} else if (G_GAME_TYPE == 1) {
-		$('#ref_multiply_game_type').text('Mart Min Losses (1)');	
+		$('#ref_multiply_game_type').text('Mart After '+G_MIN_LOSSES_BEFORE_PLAY+' Losses');	
 	} else if (G_GAME_TYPE == 2) {
-		$('#ref_multiply_game_type').text('Mart After Min '+G_MIN_LOSSES_BEFORE_PLAY+' Losses and '+G_WAIT_PLAY_AFTER_LOSSES+' win');	
+		$('#ref_multiply_game_type').text('Mart After '+G_MIN_LOSSES_BEFORE_PLAY+'+ Losses and '+G_WAIT_PLAY_AFTER_LOSSES+' win');	
 	} else if (G_GAME_TYPE == 3) {
-		$('#ref_multiply_game_type').text('Mart After losses ++ (3)');	
+		$('#ref_multiply_game_type').text('Mart After '+G_MIN_LOSSES_BEFORE_PLAY+'++ Losses and '+G_WAIT_PLAY_AFTER_LOSSES+' win');	
 	}
 
 	var accepted_consecutive_losts=0; stat_bet = G_BAS_BET;
