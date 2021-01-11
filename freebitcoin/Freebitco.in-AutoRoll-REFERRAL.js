@@ -8,12 +8,19 @@ var script_version = 0.1;
 
 })();
 var max_consecutive_losts = G_getCookie('max_consecutive_losts');
+var max_consecutive_losts_inplay = G_getCookie('max_consecutive_losts_inplay');
+var max_consecutive_losts_session = G_getCookie('max_consecutive_losts_session');
+var max_consecutive_losts_inplay_session = G_getCookie('max_consecutive_losts_inplay_session');
 var tot_multiply_sessions = G_getCookie('tot_multiply_games');
 var tot_multiply_bets = G_getCookie('tot_multiply_bets');
 var tot_multiply_play = G_getCookie('tot_multiply_play');
 var last_multiply = Date.parse(G_getCookie("last_multiply"));
 
-if ( isNaN(parseFloat(max_consecutive_losts)) ) max_consecutive_losts = 0;
+
+if ( isNaN(parseInt(max_consecutive_losts_inplay_session))) max_consecutive_losts_inplay_session=0;
+if ( isNaN(parseInt(max_consecutive_losts_session))) max_consecutive_losts_session=0;
+if ( isNaN(parseInt(max_consecutive_losts_inplay)) ) max_consecutive_losts_inplay=0;
+if ( isNaN(parseInt(max_consecutive_losts)) ) max_consecutive_losts = 0;
 if ( isNaN(parseFloat(tot_multiply_sessions)) ) tot_multiply_sessions = 0;
 if ( isNaN(parseFloat(tot_multiply_bets)) ) tot_multiply_bets = 0;
 if ( isNaN(parseFloat(tot_multiply_play)) ) tot_multiply_play = 0;
@@ -58,6 +65,7 @@ function panel_referral_init(){
 	script_output_css += ".card .false {color:darkred; }";
 	script_output_css += ".card h3 {font-size:1.3em; color: aquamarine; position: absolute; top: 0.3em; left: 50%; transform: translate(-50%,0);}";
 	script_output_css += ".card h4 {font-size:1.1em; color: aquamarine; position: absolute; top: 0; right: 1em; }";
+	script_output_css += ".card h5 {font-size:1.1em; color: aquamarine; margin-top: 0.3em;}";	
 	script_output_css += ".card .mt1 { margin-top:0.5em; }";
 	
 	script_output_css += " @media screen and (max-width: 900px) { .cards-wrapper { grid-template-columns: 1fr; } } "; 
@@ -133,10 +141,13 @@ function panel_referral_init(){
 	script_output += "</div>"; //card 3 left close
 
 	script_output += "<div class='card-column' style='text-align: right'>"; //card 3 right
-	script_output += "<h4>Estimated Winnings</h4>";
+	script_output += "<h5>Estimated Winnings</h5>";
 	script_output += "<span class='mt1'>Session: <span class='bold lime' >"+estimate_winnings_session+"</span></span>";
 	script_output += "<span>Day: <span class='bold lime'>"+estimate_winnings_day+"</span></span>";
 	script_output += "<span>Month: <span class='bold lime'>"+estimate_winnings_month+"</span></span>";
+	script_output += "<h5>Max Consecutive Losts</h5>";
+	script_output += "<span>Total: <span class='bold lime' >"+max_consecutive_losts+"</span></span>";
+	script_output += "<span>In Play: <span class='bold lime'>"+max_consecutive_losts_inplay+"</span></span>";
 	script_output += "</div>"; //card 3 right close
 
 	script_output += "</div>"; //card 3 column wrapper close
