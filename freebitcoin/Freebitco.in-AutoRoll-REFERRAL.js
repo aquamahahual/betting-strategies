@@ -1,4 +1,4 @@
-var script_version = 0.1;
+var script_version = "0.1b";
 
 (function() {
     'use strict';
@@ -182,7 +182,7 @@ function panel_referral_init(){
 	script_output += "</div>"; //card 4 column wrapper close
 
 	script_output += "<div class='card-column mt1' style='text-align: center'>"; // central column
-	script_output += "<h5>Messages</h5>";	
+	script_output += "<h5>Messages (alfa)</h5>";	
 	script_output += "<span id='ref_help_message' class='lime'>";
 	script_output += "<span id='ref_help_message1' class='bold'> Configuration is ok </span><br />";
 	script_output += "<span id='ref_help_message2' style='font-size:0.8em;'></span>";
@@ -264,7 +264,7 @@ function panel_referral_init(){
     	error_code = 3;
     } else if (accepted_consecutive_losts < 5 && G_ODDS>2) {
     	message1 = "Max accepted Consecutive lost param is low";
-    	message2 = "Dec BAS_BET, Inc MAX_BET, Dec INCR, Inc ODDS";
+    	message2 = "Dec BAS_BET, Inc MAX_BET, Dec INCR";
     	$('#accepted_consecutive_losts').addClass('bg-orange');
     	error_code = 2;
     } else if (oddsincrease < G_BAS_BET) {
@@ -273,7 +273,7 @@ function panel_referral_init(){
     	error_code = 1;
     } else if (accepted_consecutive_losts < 10 && G_ODDS>2) {
     	message1 = "Max accepted Consecutive Lost param is risky";
-    	message2 = "Dec BAS_BET, Inc MAX_BET, Dec INCR, Inc ODDS";
+    	message2 = "Dec BAS_BET, Inc MAX_BET, Dec INCR";
     	$('#accepted_consecutive_losts').addClass('bg-yellow');
     	error_code = 1;
     } 
@@ -294,14 +294,13 @@ function panel_referral_init(){
 function odds_increase (accepted_consecutive_losts) {
 	var win = 0; var winlessspent; var spent = 0; 
 	var nbet = G_BAS_BET; var nwin;
-	G_ODDS=1.8; G_INCR=125;
+	G_ODDS=3; G_INCR=40;
 
 	for (i=1; i<=accepted_consecutive_losts; i++){
 		spent += nbet;
 		win = nbet + (nbet * (G_ODDS - 1));
 		winlessspent = win - spent;
-		//console.log(nbet.toFixed(8)+","+spent.toFixed(8)+","+win.toFixed(8));	
-		console.log(winlessspent.toFixed(8));
+		console.log("--bet:"+nbet.toFixed(8)+",spent:"+spent.toFixed(8)+",win:"+win.toFixed(8)+",diff:"+winlessspent.toFixed(8));	
 		nbet = nbet + (nbet * (G_INCR/100));
 		nwin = nbet + (nbet * (G_ODDS - 1));
 	}
