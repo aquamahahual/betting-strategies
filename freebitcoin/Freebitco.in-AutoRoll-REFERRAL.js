@@ -16,7 +16,7 @@ last_session_hist_str = G_getCookie("last_multiply_session_hist");
 var multiply_hist;
 var multiply_hist_str = "";
 multiply_hist_str = G_getCookie("multiply_hist");
-console.log ("multiply_hist_str="+multiply_hist_str);
+//console.log ("multiply_hist_str="+multiply_hist_str);
 
 var max_consecutive_losts = G_getCookie('max_consecutive_losts');
 var max_consecutive_losts_inplay = G_getCookie('max_consecutive_losts_inplay');
@@ -41,11 +41,11 @@ if ( isNaN(parseFloat(tot_multiply_play)) ) tot_multiply_play = 0;
 if ( isNaN(parseFloat(last_multiply)) ) last_multiply = 0;
 if ( last_session_hist_str.length != 0 ) { 
 	last_session_hist = JSON.parse(last_session_hist_str);
-	console.log ("last_session_hist="+last_session_hist);
+	//console.log ("last_session_hist="+last_session_hist);
 }
 if ( multiply_hist_str.length != 0) {
 	multiply_hist = JSON.parse(multiply_hist_str);
-	console.log("multiply_hist="+multiply_hist)
+	//console.log("multiply_hist="+multiply_hist)
 }
 
 var dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit', hour: 'numeric', minute: 'numeric', hour12: false });
@@ -56,7 +56,7 @@ function panel_referral_init(){
 
 	var d = new Date();
 	var last_multiply_diff = Math.floor(d.getTime() - last_multiply);
-	console.log("last multiply "+(last_multiply_diff/1000/60)+" minutes ago")
+	//console.log("last multiply "+(last_multiply_diff/1000/60)+" minutes ago")
 	var milli_between_multiplies = Math.floor(G_MULTIPLY_WAIT_HOURS*60*60*1000);
 	var ref_multiply_missing_hours = Math.floor((milli_between_multiplies - last_multiply_diff)/1000/60/60);
 	if (ref_multiply_missing_hours < 0) ref_multiply_missing_hours = 0;
@@ -335,7 +335,7 @@ function panel_referral_init(){
 
   	//find last time multiply in hh:mm 
 	var [{ value: month },,{ value: day },,{ value: year },,{ value: hour },,{ value: minute }] = dateTimeFormat .formatToParts(last_multiply);
-	console.log("last multiply session: "+year+"/"+month+"/"+day+" "+hour+":"+minute);
+	//console.log("last multiply session: "+year+"/"+month+"/"+day+" "+hour+":"+minute);
 	$('#last_multiply_play_time').text(month+" "+day+", "+hour+":"+minute);
   	
 } 
@@ -365,20 +365,21 @@ function graphs_init () {
 	    data: {
 	        labels: last_session_hist,
 	        datasets: [{
-	            label: 'My First dataset',
-	            backgroundColor: 'rgb(255, 99, 132)',
-	            borderColor: 'rgb(255, 99, 132)',
-	            data: last_session_hist
+	            label: 'Last Session Balance',
+	            backgroundColor: 'rgb(255, 127, 80)',
+	            borderColor: 'rgb(255, 127, 80)',
+	            data: last_session_hist,
+	            pointRadius: 2
 	        }]
 	    },
 
 	    // Configuration options go here
 	    options: {
 	    	legend: {
-	            display: false,
+	            display: true,
 	            labels: {
-	                fontColor: 'rgb(255, 99, 132)',
-	                fontSize: 11
+	                fontColor: 'rgb(255, 127, 80)',
+	                fontSize: 10
 	            }
         	},
         	aspectRatio: 5,
@@ -405,19 +406,20 @@ function graphs_init () {
 	        labels: multiply_hist,
 	        datasets: [{
 	            label: 'Total Balance',
-	            backgroundColor: 'rgb(255, 99, 132)',
-	            borderColor: 'rgb(255, 99, 132)',
-	            data: multiply_hist
+	            backgroundColor: 'rgb(0, 255, 0)',
+	            borderColor: 'rgb(0, 255, 0)',
+	            data: multiply_hist,
+	            pointRadius: 2
 	        }]
 	    },
 
 	    // Configuration options go here
 	    options: {
 	    	legend: {
-	            display: false,
+	            display: true,
 	            labels: {
-	                fontColor: 'rgb(255, 99, 132)',
-	                fontSize: 11
+	                fontColor: 'rgb(0, 255, 0)',
+	                fontSize: 10
 	            }
         	},
         	aspectRatio: 5,
