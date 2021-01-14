@@ -30,6 +30,7 @@ if ( isNaN(parseFloat(tot_multiply_bets)) ) tot_multiply_bets = 0;
 if ( isNaN(parseFloat(tot_multiply_play)) ) tot_multiply_play = 0;
 if ( isNaN(parseFloat(last_multiply)) ) last_multiply = 0;
 
+var dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit', hour: 'numeric', minute: 'numeric', hour12: false });
 
 function panel_referral_init(){
 
@@ -37,6 +38,7 @@ function panel_referral_init(){
 
 	var d = new Date();
 	var last_multiply_diff = Math.floor(d.getTime() - last_multiply);
+	console.log("last multiply "+(last_multiply_diff/1000/60)+" minutes ago")
 	var milli_between_multiplies = Math.floor(G_MULTIPLY_WAIT_HOURS*60*60*1000);
 	var ref_multiply_missing_hours = Math.floor((milli_between_multiplies - last_multiply_diff)/1000/60/60);
 	if (ref_multiply_missing_hours < 0) ref_multiply_missing_hours = 0;
@@ -68,7 +70,7 @@ function panel_referral_init(){
 	script_output_css += ".colored .card .lime {color:lime; }";
 	script_output_css += ".colored .card .lgrey {color:#bbb; }";
 	script_output_css += ".colored .card .bg-yellow {background-color: #feffa4} ";
-	script_output_css += ".colored .card .bg-orange {background-color: #feffa4; color: #989898;} ";
+	script_output_css += ".colored .card .bg-orange {background-color: #ffa275; color: #333;} ";
 	script_output_css += ".script_referral {font-size: 12px; background: #bbb; border: 2px groove #09ff00; margin-bottom: 1em;}";
 	script_output_css += ".script_referral h1 {font-size: 1.4em; margin: 0;}";
 	script_output_css += ".script_referral h2 {font-size: 1.2em; color: #28731a; margin:0; }";
@@ -108,7 +110,7 @@ function panel_referral_init(){
 
 	script_output += "<div id='card1-right' class='card-column'>"; //card 1 right
 	script_output += "<div id='card1-buttons-container' class='cards-column-wrapper'>" // button wrapper
-	script_output += "<div class='card-button'><span>Wait H</span><span class='bold coral card-button-num'>"+G_MULTIPLY_WAIT_HOURS+"</span></div>";
+	script_output += "<div id='hours_beetween_multiply' class='card-button'><span>Wait H</span><span class='bold coral card-button-num'>"+G_MULTIPLY_WAIT_HOURS+"</span></div>";
 	script_output += "<div class='card-button'><span>Missing H</span><span id='ref_multiply_missing_hours' class='bold coral card-button-num'>"+ref_multiply_missing_hours+"</span></div>";
 	script_output += "<div class='card-button'><span>Max Bets </span><span class='bold coral card-button-num'>"+G_MAX_ROLLS_AT_MULTIPLY+"</span></div>";
 	script_output += "<div class='card-button'><span>Max Plays </span><span class='bold coral card-button-num'>"+G_MAX_PLAY+" </span></div>";
@@ -159,9 +161,9 @@ function panel_referral_init(){
 	script_output += "<span>Session: <span class='bold lime' >"+estimate_winnings_session+"</span></span>";
 	script_output += "<span>Day: <span class='bold lime'>"+estimate_winnings_day+"</span></span>";
 	script_output += "<span class='mb1'>Month: <span class='bold lime'>"+estimate_winnings_month+"</span></span>";
-	script_output += "<h5>Max Consecutive Losts</h5>";
-	script_output += "<span>Total: <span class='bold lime' >"+max_consecutive_losts+"</span></span>";
-	script_output += "<span>In Play: <span class='bold lime'>"+max_consecutive_losts_inplay+"</span></span>";
+	script_output += "<h5>Max Consecutive Losts Always</h5>";
+	script_output += "<span>First strike: <span class='bold lime' >"+max_consecutive_losts+"</span></span>";
+	script_output += "<span>Second Strike: <span class='bold lime'>"+max_consecutive_losts_inplay+"</span></span>";
 	script_output += "</div>"; //card 3 right close
 
 	script_output += "</div>"; //card 3 column wrapper close
@@ -172,14 +174,15 @@ function panel_referral_init(){
 	script_output += "<div class='cards-column-wrapper'>" // 4 column wrapper
 	script_output += "<div class='card-column' >";
 	script_output += "<h5>Max Consecutive Losts</h5>";
-	script_output += "<h5>Session</h5>";
+	script_output += "<h5>Last Session</h5>";
 	script_output += "<div class='cards-column-wrapper'>" // button wrapper
-	script_output += "<div class='card-button'><span>In Play</span><span class='bold coral card-button-num'>"+max_consecutive_losts_inplay_session+"</span></div>";
-	script_output += "<div class='card-button'><span>Total</span><span class='bold coral card-button-num'>"+max_consecutive_losts_session+"</span></div>";
+	script_output += "<div class='card-button'><span>First Strike</span><span class='bold coral card-button-num'>"+max_consecutive_losts_session+"</span></div>";
+	script_output += "<div class='card-button'><span>Second Strike</span><span class='bold coral card-button-num'>"+max_consecutive_losts_inplay_session+"</span></div>";
 	script_output += "</div>"; //card 4 button wraper close	
 	script_output += "</div>"; //card 4 column close	
 	script_output += "<div class='card-column' style='text-align: right'>"; // column right
 	script_output += "<h5>Last Session Stats</h5>";	
+	script_output += "<span id='last_multiply_play_time' class='bold coral'></span>";
 	script_output += "<span>Max Bet: <span class='bold lime'>"+parseFloat(max_bet_session).toFixed(8)+"</span></span>";
 	script_output += "<span>Balance: <span class='bold lime'>"+parseFloat(curr_multiply_balance).toFixed(8)+"</span></span>";
 	script_output += "</div>"; //card 4 column close
@@ -206,9 +209,9 @@ function panel_referral_init(){
 	script_output += "</div>"; //main div close 
 
 	$('head').append(script_output_css);
-	
 	$('#script_output').after(script_output);
 
+	// Colors and texts in cards
 	if (Boolean(G_MULTIPLY)) {
 		$('#ref_multiply_status').addClass('true').text('Enabled');
 	} else {
@@ -244,6 +247,7 @@ function panel_referral_init(){
 		$('#ref_multiply_game_type').text('Mart After '+G_MIN_LOSSES_BEFORE_PLAY+'++ Losses and '+G_WAIT_PLAY_AFTER_LOSSES+' win');	
 	}
 
+	// get accepte consecutive losts and set it
 	var accepted_consecutive_losts=0; stat_bet = G_BAS_BET;
 	while (stat_bet < G_MAX_BET) {
 		stat_bet=stat_bet+(stat_bet*G_INCR/100);
@@ -259,14 +263,14 @@ function panel_referral_init(){
     var oddsincrease = parseFloat(odds_increase(accepted_consecutive_losts-1)).toFixed(8);
 
     if (G_MAX_BET > balance ) {
-    	message1 = "MAX BET is higher then Balance";
+    	message1 = "MAX BET is higher then Balance. Can't play.";
     	message2 = "Decrease MAX_BET";
     	error_code = 3;
     } else if (oddsincrease < 0) {
     	message1 = "Odds and Increase param not good";
     	message2 = "Loosing Combination "+oddsincrease+" after "+(accepted_consecutive_losts-1)+" games";
     	error_code = 3;
-    } else if (accepted_consecutive_losts < 5 && G_ODDS>2) {
+    } else if (accepted_consecutive_losts < 5 && G_ODDS >= 2) {
     	message1 = "Max accepted Consecutive lost param is low";
     	message2 = "Dec BAS_BET, Inc MAX_BET, Dec INCR";
     	$('#accepted_consecutive_losts').addClass('bg-orange');
@@ -275,14 +279,23 @@ function panel_referral_init(){
     	message1 = "Odds and Increase param warning";
     	message2 = "You'll get "+oddsincrease+" after "+(accepted_consecutive_losts-1)+" games";
     	error_code = 1;
-    } else if (accepted_consecutive_losts < 10 && G_ODDS>2) {
+    } else if (accepted_consecutive_losts < 10 && G_ODDS >= 2) {
     	message1 = "Max accepted Consecutive Lost param is risky";
     	message2 = "Dec BAS_BET, Inc MAX_BET, Dec INCR";
     	$('#accepted_consecutive_losts').addClass('bg-yellow');
     	error_code = 1;
-    } 
+    } else if (G_MULTIPLY_WAIT_HOURS <= 5) {
+    	message1 = "Play mult too often is risky";
+    	message2 = "Increase HOURS_BETWEEN_MULTIPLY";
+    	$('#hours_beetween_multiply').addClass('bg-yellow');
+    	error_code = 1;
+    }
 
-    
+    if (G_MULTIPLY_WAIT_HOURS <= 1) {
+    	$('#hours_beetween_multiply').addClass('bg-orange');
+    	$('#hours_beetween_multiply .coral').removeClass('coral');
+    	error_code = 1;
+    }
 
     if (error_code > 0) {
     	$('#ref_help_message1').text(message1);
@@ -292,6 +305,11 @@ function panel_referral_init(){
     else if (error_code == 3) $('#ref_help_message').removeClass('lime').addClass('coral');
   	else if (error_code == 2) $('#ref_help_message').removeClass('lime').addClass('orange');  
   	else if (error_code == 1) $('#ref_help_message').removeClass('lime').addClass('yellow');  
+
+  	//find last time multiply in hh:mm 
+	var [{ value: month },,{ value: day },,{ value: year },,{ value: hour },,{ value: minute }] = dateTimeFormat .formatToParts(last_multiply);
+	console.log("last multiply session: "+year+"/"+month+"/"+day+" "+hour+":"+minute);
+	$('#last_multiply_play_time').text(month+" "+day+", "+hour+":"+minute);
   	
 } 
 
@@ -312,13 +330,14 @@ function odds_increase (accepted_consecutive_losts) {
 
 function graphs_init () {
 	var ctx = document.getElementById('myChart').getContext('2d');
+
 	var chart = new Chart(ctx, {
 	    // The type of chart we want to create
 	    type: 'line',
 
 	    // The data for our dataset
 	    data: {
-	        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+	        labels: [1, 'February', 'March', 'April', 'May', 'June', 'July'],
 	        datasets: [{
 	            label: 'My First dataset',
 	            backgroundColor: 'rgb(255, 99, 132)',
@@ -336,7 +355,13 @@ function graphs_init () {
 	                fontSize: 11
 	            }
         	},
-        	aspectRatio: 5
+        	aspectRatio: 5,
+			scales:{
+	            xAxes: [{
+	                display: false //this will remove all the x-axis grid lines
+	            }]
+	        }
+
     	}
 	});
 }
