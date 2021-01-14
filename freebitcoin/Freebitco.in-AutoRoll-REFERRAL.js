@@ -7,6 +7,17 @@ var script_version = "0.1b";
     setTimeout(function(){ graphs_init(); }, 2500 );
 
 })();
+
+var last_session_hist;
+var last_session_hist_str = "";
+last_session_hist_str = G_getCookie("last_multiply_session_hist");
+//console.log("sess_str="+last_session_hist_str);
+
+var multiply_hist;
+var multiply_hist_str = "";
+multiply_hist_str = G_getCookie("multiply_hist");
+console.log ("multiply_hist_str="+multiply_hist_str);
+
 var max_consecutive_losts = G_getCookie('max_consecutive_losts');
 var max_consecutive_losts_inplay = G_getCookie('max_consecutive_losts_inplay');
 var max_consecutive_losts_session = G_getCookie('max_consecutive_losts_session');
@@ -16,8 +27,7 @@ var max_bet_session = G_getCookie('max_bet_session');
 var tot_multiply_sessions = G_getCookie('tot_multiply_games');
 var tot_multiply_bets = G_getCookie('tot_multiply_bets');
 var tot_multiply_play = G_getCookie('tot_multiply_play');
-var last_multiply = Date.parse(G_getCookie("last_multiply"));
-
+var last_multiply = Date.parse(G_getCookie("last_multiply")); 
 
 if ( isNaN(parseInt(max_consecutive_losts_inplay_session))) max_consecutive_losts_inplay_session=0;
 if ( isNaN(parseInt(max_consecutive_losts_session))) max_consecutive_losts_session=0;
@@ -29,6 +39,14 @@ if ( isNaN(parseFloat(tot_multiply_sessions)) ) tot_multiply_sessions = 0;
 if ( isNaN(parseFloat(tot_multiply_bets)) ) tot_multiply_bets = 0;
 if ( isNaN(parseFloat(tot_multiply_play)) ) tot_multiply_play = 0;
 if ( isNaN(parseFloat(last_multiply)) ) last_multiply = 0;
+if ( last_session_hist_str.length != 0 ) { 
+	last_session_hist = JSON.parse(last_session_hist_str);
+	console.log ("last_session_hist="+last_session_hist);
+}
+if ( multiply_hist_str.length != 0) {
+	multiply_hist = JSON.parse(multiply_hist_str);
+	console.log("multiply_hist="+multiply_hist)
+}
 
 var dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit', hour: 'numeric', minute: 'numeric', hour12: false });
 
@@ -82,6 +100,9 @@ function panel_referral_init(){
 	script_output_css += ".card h5 {font-size:1.1em; color: aquamarine; margin:0}";	
 	script_output_css += ".card .mt1 { margin-top:0.5em; }";
 	script_output_css += ".card .mb1 { margin-bottom:0.5em; }";
+	script_output_css += ".cards-wrapper-1col.pt0 { padding-top:0; }";
+	script_output_css += ".cards-wrapper-1col.pb0 { padding-bottom:0; }";
+	
 
 	
 	script_output_css += " @media screen and (max-width: 900px) { .cards-wrapper { grid-template-columns: 1fr; } } "; 
@@ -162,8 +183,8 @@ function panel_referral_init(){
 	script_output += "<span>Day: <span class='bold lime'>"+estimate_winnings_day+"</span></span>";
 	script_output += "<span class='mb1'>Month: <span class='bold lime'>"+estimate_winnings_month+"</span></span>";
 	script_output += "<h5>Max Consecutive Losts Always</h5>";
-	script_output += "<span>First strike: <span class='bold lime' >"+max_consecutive_losts+"</span></span>";
-	script_output += "<span>Second Strike: <span class='bold lime'>"+max_consecutive_losts_inplay+"</span></span>";
+	script_output += "<span>1st str: <span class='bold lime' >"+max_consecutive_losts+"</span></span>";
+	script_output += "<span>2nd str: <span class='bold lime'>"+max_consecutive_losts_inplay+"</span></span>";
 	script_output += "</div>"; //card 3 right close
 
 	script_output += "</div>"; //card 3 column wrapper close
@@ -199,9 +220,15 @@ function panel_referral_init(){
 
 	script_output += "</div>"; //card wrapper 4 cards close
 
-	script_output += "<div class='cards-wrapper cards-wrapper-1col'>"; //card wrapper 1 card open	
+	script_output += "<div class='cards-wrapper cards-wrapper-1col pt0 pb0'>"; //card wrapper 1 card open	
 	script_output += "<div id='card4' class='card card-double-size'>";
-	script_output += "<canvas id='myChart'></canvas>";
+	script_output += "<canvas id='myChart_last_session'></canvas>";
+	script_output += "</div>"; //card 3close
+	script_output += "</div>"; //card wrapper 1 cards close
+
+	script_output += "<div class='cards-wrapper cards-wrapper-1col pt0'>"; //card wrapper 1 card open	
+	script_output += "<div id='card5' class='card card-double-size'>";
+	script_output += "<canvas id='myChart_total'></canvas>";
 	script_output += "</div>"; //card 3close
 	script_output += "</div>"; //card wrapper 1 cards close
 
@@ -321,7 +348,7 @@ function odds_increase (accepted_consecutive_losts) {
 		spent += nbet;
 		win = nbet + (nbet * (G_ODDS - 1));
 		winlessspent = win - spent;
-		console.log("--bet:"+nbet.toFixed(8)+",spent:"+spent.toFixed(8)+",win:"+win.toFixed(8)+",diff:"+winlessspent.toFixed(8));	
+		//console.log("--bet:"+nbet.toFixed(8)+",spent:"+spent.toFixed(8)+",win:"+win.toFixed(8)+",diff:"+winlessspent.toFixed(8));	
 		nbet = nbet + (nbet * (G_INCR / 100));
 		nwin = nbet + (nbet * (G_ODDS - 1));
 	}
@@ -329,20 +356,54 @@ function odds_increase (accepted_consecutive_losts) {
 }
 
 function graphs_init () {
-	var ctx = document.getElementById('myChart').getContext('2d');
-
+	var ctx = document.getElementById('myChart_last_session').getContext('2d');
 	var chart = new Chart(ctx, {
 	    // The type of chart we want to create
 	    type: 'line',
 
 	    // The data for our dataset
 	    data: {
-	        labels: [1, 'February', 'March', 'April', 'May', 'June', 'July'],
+	        labels: last_session_hist,
 	        datasets: [{
 	            label: 'My First dataset',
 	            backgroundColor: 'rgb(255, 99, 132)',
 	            borderColor: 'rgb(255, 99, 132)',
-	            data: [0.00000100, 0.00000200, 0.00000300, -0.00001200, 0.00000100, 0.00001100, 0.00007100]
+	            data: last_session_hist
+	        }]
+	    },
+
+	    // Configuration options go here
+	    options: {
+	    	legend: {
+	            display: false,
+	            labels: {
+	                fontColor: 'rgb(255, 99, 132)',
+	                fontSize: 11
+	            }
+        	},
+        	aspectRatio: 5,
+			scales:{
+	            xAxes: [{
+	                display: false //this will remove all the x-axis grid lines
+	            }]
+	        }
+
+    	}
+	});
+	
+	var ctx1 = document.getElementById('myChart_total').getContext('2d');
+	var chart = new Chart(ctx1, {
+	    // The type of chart we want to create
+	    type: 'line',
+
+	    // The data for our dataset
+	    data: {
+	        labels: multiply_hist,
+	        datasets: [{
+	            label: 'Total Balance',
+	            backgroundColor: 'rgb(255, 99, 132)',
+	            borderColor: 'rgb(255, 99, 132)',
+	            data: multiply_hist
 	        }]
 	    },
 
