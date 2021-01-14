@@ -70,7 +70,7 @@ function panel_referral_init(){
 	var estimate_winnings_month = parseFloat(estimate_winnings_day * 30).toFixed(8);
 
 	script_output_css =  "<style>";
-	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 1rem; grid-template-columns: 1fr 1fr; padding: 0.5rem 0rem; margin: 0 auto; width: max-content; }";
+	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 0.5rem; grid-template-columns: 1fr 1fr; padding: 0.5rem 0rem; margin: 0 auto; width: max-content; }";
 	script_output_css += ".cards-wrapper-1col { grid-template-columns: 1fr; }";
 	script_output_css += ".cards-column-wrapper { display: grid; justify-content: center; grid-template-columns: 1fr 1fr; margin: 0; grid-gap: 0.5em; }";	
 	script_output_css += ".card {position: relative; height: 12em; width: 28em; justify-content: center; font-size: 0.8em; border-radius: 1em ;padding:0.8em 1em; display: flex; flex-direction: column; background-color:#353535; box-shadow: 0 0 5em -1em black; border: 1px solid; text-decoration: none; text-align: left;}";
@@ -385,9 +385,13 @@ function graphs_init () {
 			scales:{
 	            xAxes: [{
 	                display: false //this will remove all the x-axis grid lines
-	            }]
+	            }],
+	            yAxes: [{
+		            ticks: {
+		                display: false
+		            }
+		        }]
 	        }
-
     	}
 	});
 	
@@ -420,9 +424,13 @@ function graphs_init () {
 			scales:{
 	            xAxes: [{
 	                display: false //this will remove all the x-axis grid lines
-	            }]
+	            }],
+	            yAxes: [{
+		            ticks: {
+		                display: false
+		            }
+		        }]
 	        }
-
     	}
 	});
 }
