@@ -197,13 +197,13 @@ function panel_referral_init(){
 	script_output += "<h5>Max Consecutive Losts</h5>";
 	script_output += "<h5>Last Session</h5>";
 	script_output += "<div class='cards-column-wrapper'>" // button wrapper
-	script_output += "<div class='card-button'><span>First Strike</span><span class='bold coral card-button-num'>"+max_consecutive_losts_session+"</span></div>";
-	script_output += "<div class='card-button'><span>Second Strike</span><span class='bold coral card-button-num'>"+max_consecutive_losts_inplay_session+"</span></div>";
+	script_output += "<div class='card-button'><span>1st str</span><span class='bold coral card-button-num'>"+max_consecutive_losts_session+"</span></div>";
+	script_output += "<div class='card-button'><span>2nd str</span><span class='bold coral card-button-num'>"+max_consecutive_losts_inplay_session+"</span></div>";
 	script_output += "</div>"; //card 4 button wraper close	
 	script_output += "</div>"; //card 4 column close	
 	script_output += "<div class='card-column' style='text-align: right'>"; // column right
 	script_output += "<h5>Last Session Stats</h5>";	
-	script_output += "<span id='last_multiply_play_time' class='bold coral'></span>";
+	script_output += "<span id='last_multiply_play_time' class='bold coral mb1'></span>";
 	script_output += "<span>Max Bet: <span class='bold lime'>"+parseFloat(max_bet_session).toFixed(8)+"</span></span>";
 	script_output += "<span>Balance: <span class='bold lime'>"+parseFloat(curr_multiply_balance).toFixed(8)+"</span></span>";
 	script_output += "</div>"; //card 4 column close
@@ -318,10 +318,12 @@ function panel_referral_init(){
     	error_code = 1;
     }
 
-    if (G_MULTIPLY_WAIT_HOURS <= 1) {
+    if (G_MULTIPLY_WAIT_HOURS <= 1 && error_code <= 2) {
+    	message1 = "If you play multiply every hour you will lose";
+    	message2 = "Increase MULTIPLY_WAIT_HOURS at 6+";
     	$('#hours_beetween_multiply').addClass('bg-orange');
     	$('#hours_beetween_multiply .coral').removeClass('coral');
-    	error_code = 1;
+    	error_code = 2;
     }
 
     if (error_code > 0) {
@@ -365,7 +367,7 @@ function graphs_init () {
 	    data: {
 	        labels: last_session_hist,
 	        datasets: [{
-	            label: 'Last Session Balance',
+	            label: 'Last Session Multiplpy Balance',
 	            backgroundColor: 'rgb(255, 127, 80)',
 	            borderColor: 'rgb(255, 127, 80)',
 	            data: last_session_hist,
@@ -405,7 +407,7 @@ function graphs_init () {
 	    data: {
 	        labels: multiply_hist,
 	        datasets: [{
-	            label: 'Total Balance',
+	            label: 'Total Balance in Multiply',
 	            backgroundColor: 'rgb(0, 255, 0)',
 	            borderColor: 'rgb(0, 255, 0)',
 	            data: multiply_hist,
