@@ -381,7 +381,7 @@ function graphs_init () {
 	            display: true,
 	            labels: {
 	                fontColor: 'rgb(255, 127, 80)',
-	                fontSize: 10
+	                fontSize: 11
 	            }
         	},
         	aspectRatio: 5,
@@ -411,7 +411,7 @@ function graphs_init () {
 	            backgroundColor: 'rgb(0, 255, 0)',
 	            borderColor: 'rgb(0, 255, 0)',
 	            data: multiply_hist,
-	            pointRadius: 2
+	            pointRadius: 3
 	        }]
 	    },
 
@@ -421,7 +421,7 @@ function graphs_init () {
 	            display: true,
 	            labels: {
 	                fontColor: 'rgb(0, 255, 0)',
-	                fontSize: 10
+	                fontSize: 11
 	            }
         	},
         	aspectRatio: 5,
