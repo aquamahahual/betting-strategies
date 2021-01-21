@@ -15,7 +15,7 @@ last_session_hist_str = G_getCookie("last_multiply_session_hist");
 
 var multiply_hist;
 var multiply_hist_str = "";
-multiply_hist_str = G_getCookie("multiply_hist");
+multiply_hist_str = G_getCookie("multiply_hist_arr");
 //console.log ("multiply_hist_str="+multiply_hist_str);
 
 var max_consecutive_losts = G_getCookie('max_consecutive_losts');
@@ -275,8 +275,8 @@ function panel_referral_init(){
 	}
 
 	// get accepte consecutive losts and set it
-	var accepted_consecutive_losts=0; stat_bet = G_BAS_BET;
-	while (stat_bet < G_MAX_BET) {
+	var accepted_consecutive_losts=1; stat_bet = G_BAS_BET;
+	while (stat_bet <= G_MAX_BET) {
 		stat_bet=stat_bet+(stat_bet*G_INCR/100);
 		accepted_consecutive_losts++;
 	}
