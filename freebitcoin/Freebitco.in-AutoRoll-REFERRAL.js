@@ -70,14 +70,14 @@ function panel_referral_init(){
 	var estimate_winnings_month = parseFloat(estimate_winnings_day * 30).toFixed(8);
 
 	script_output_css =  "<style>";
-	script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 0.5rem; grid-template-columns: 1fr 1fr; padding: 0.5rem 0rem; margin: 0 auto; width: max-content; }";
+	//script_output_css += ".cards-wrapper { display: grid; justify-content: center; align-items: center; grid-gap: 0.5rem; grid-template-columns: 1fr 1fr; padding: 0.5rem 0rem; margin: 0 auto; width: max-content; }";
 	script_output_css += ".cards-wrapper-1col { grid-template-columns: 1fr; }";
 	script_output_css += ".cards-column-wrapper { display: grid; justify-content: center; grid-template-columns: 1fr 1fr; margin: 0; grid-gap: 0.5em; }";	
 	script_output_css += ".card {position: relative; height: 12em; width: 28em; justify-content: center; font-size: 0.8em; border-radius: 1em ;padding:0.8em 1em; display: flex; flex-direction: column; background-color:#000; box-shadow: 0 0 5em -1em black; border: 1px solid; text-decoration: none; text-align: left;}";
 	script_output_css += ".card-double-size {width: 56em; }";
 	script_output_css += ".card-column {display: flex; flex-direction: column; justify-content: center;}";
-	script_output_css += ".card-button {border: 1px solid grey; box-shadow: 0 0 5em -1em white; overflow: hidden; padding: 0.3em; background-color: beige; color: black; border-radius:10px; display: flex; flex-direction: column; text-align: center;}";
-	script_output_css += ".card-button:hover {    background-color: #efefef;}";
+	//script_output_css += ".card-button {border: 1px solid grey; box-shadow: 0 0 5em -1em white; overflow: hidden; padding: 0.3em; background-color: beige; color: black; border-radius:10px; display: flex; flex-direction: column; text-align: center;}";
+	//script_output_css += ".card-button:hover {    background-color: #efefef;}";
 	script_output_css += ".card-button-num {font-size: 1.4em; margin-top:0.2em;}";
 	script_output_css += ".colored .white {color:white; }";
 	script_output_css += ".colored .card {border-color: lime; }"
