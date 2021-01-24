@@ -274,7 +274,7 @@ function panel_referral_init(){
 	}
 
 	// get accepte consecutive losts and set it
-	var accepted_consecutive_losts=1; stat_bet = G_BAS_BET;
+	var accepted_consecutive_losts=0; stat_bet = G_BAS_BET;
 	while (stat_bet <= G_MAX_BET) {
 		stat_bet=stat_bet+(stat_bet*G_INCR/100);
 		accepted_consecutive_losts++;
