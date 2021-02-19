@@ -1,12 +1,7 @@
-var script_version = "0.1b";
+var script_version = "0.1 beta";
 
-(function() {
-    'use strict';
-  
-    setTimeout(function(){ panel_referral_init(); }, 1200 );
-    setTimeout(function(){ graphs_init(); }, 2500 );
 
-})();
+var dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit', hour: 'numeric', minute: 'numeric', hour12: false });
 
 var last_session_hist;
 var last_session_hist_str = "";
@@ -27,7 +22,7 @@ var max_bet_session = G_getCookie('max_bet_session');
 var tot_multiply_sessions = G_getCookie('tot_multiply_games');
 var tot_multiply_bets = G_getCookie('tot_multiply_bets');
 var tot_multiply_play = G_getCookie('tot_multiply_play');
-var last_multiply = Date.parse(G_getCookie("last_multiply")); 
+var last_multiply = G_getCookie("last_multiply"); 
 
 if ( isNaN(parseInt(max_consecutive_losts_inplay_session))) max_consecutive_losts_inplay_session=0;
 if ( isNaN(parseInt(max_consecutive_losts_session))) max_consecutive_losts_session=0;
@@ -38,7 +33,7 @@ if ( isNaN(parseFloat(max_bet_session))) max_bet_session=0;
 if ( isNaN(parseFloat(tot_multiply_sessions)) ) tot_multiply_sessions = 0;
 if ( isNaN(parseFloat(tot_multiply_bets)) ) tot_multiply_bets = 0;
 if ( isNaN(parseFloat(tot_multiply_play)) ) tot_multiply_play = 0;
-if ( isNaN(parseFloat(last_multiply)) ) last_multiply = 0;
+if ( isNaN(parseInt(last_multiply)) ) last_multiply = 0;
 if ( last_session_hist_str.length != 0 ) { 
 	last_session_hist = JSON.parse(last_session_hist_str);
 	//console.log ("last_session_hist="+last_session_hist);
@@ -48,7 +43,15 @@ if ( multiply_hist_str.length != 0) {
 	//console.log("multiply_hist="+multiply_hist)
 }
 
-var dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit', hour: 'numeric', minute: 'numeric', hour12: false });
+
+(function() {
+    'use strict';
+    console.log('%c>>>> Level 1, welcome Referrer', 'font-weight:bold; color: coral');
+  
+    setTimeout(function(){ panel_referral_init(); }, 3200 );
+    setTimeout(function(){ graphs_init(); }, 3500 );
+
+})();
 
 function panel_referral_init(){
 
@@ -61,11 +64,12 @@ function panel_referral_init(){
 	var ref_multiply_missing_hours = Math.floor((milli_between_multiplies - last_multiply_diff)/1000/60/60);
 	if (ref_multiply_missing_hours < 0) ref_multiply_missing_hours = 0;
 
+	// Estimated Winnings Calc
 	var estimate_winnings_session = parseFloat(G_BAS_BET*G_MAX_PLAY).toFixed(8);
 	if (G_MULTIPLY_WAIT_HOURS == 0) {
-		var estimate_winnings_day = parseFloat( estimate_winnings_session * 24 * G_ROLL_P/10).toFixed(8)
+		var estimate_winnings_day = parseFloat( estimate_winnings_session * 24 * G_ROLL_P/10).toFixed(8);
 	} else {
-		var estimate_winnings_day = parseFloat( estimate_winnings_session * (24/G_MULTIPLY_WAIT_HOURS) * G_ROLL_P/10).toFixed(8)
+		var estimate_winnings_day = parseFloat( estimate_winnings_session * (24/G_MULTIPLY_WAIT_HOURS)).toFixed(8);
 	}
 	var estimate_winnings_month = parseFloat(estimate_winnings_day * 30).toFixed(8);
 
@@ -103,15 +107,13 @@ function panel_referral_init(){
 	script_output_css += ".cards-wrapper-1col.pt0 { padding-top:0; }";
 	script_output_css += ".cards-wrapper-1col.pb0 { padding-bottom:0; }";
 	
-
-	
 	script_output_css += " @media screen and (max-width: 500px) { .card {max-width: calc(100vw - 4rem); } } ";
 	script_output_css += "</style>";
 
 
 	script_output =  "<div class='center free_play_bonus_box_large script_referral colored' id='script_referral'>";
 	script_output += "<h1>Multiply Betting System v."+script_version+"</h1>";
-	script_output += "<h2>Just for referrals</h2>";
+	script_output += "<h2>For Referrals</h2>";
 	script_output += "<div class='cards-wrapper cards-wrapper-1col white'>";
 	
 	script_output += "<div class='cards-wrapper'>";	
@@ -125,7 +127,7 @@ function panel_referral_init(){
 	script_output += "<span>Mode: <span id='ref_multiply_game_mode' class='bold purple'></span></span>";
 	script_output += "<span>Type: <span id='ref_multiply_game_type' class='bold purple'></span></span>";
 	script_output += "<span>Speed: <span id='ref_multiply_speed' class='bold coral'></span></span>";
-	script_output += "<span>Play Probability: <span id='ref_multiply_speed' class='bold coral'>"+G_ROLL_P+"/10</span></span>";
+	script_output += "<span>Play Probability: <span id='ref_multiply_speed' class='bold coral'>"+G_ROLL_P+"/100</span></span>";
 	script_output += "</div>"; //card 1 left close
 
 	script_output += "<div id='card1-right' class='card-column'>"; //card 1 right
@@ -237,6 +239,7 @@ function panel_referral_init(){
 	$('head').append(script_output_css);
 	$('#script_output').after(script_output);
 
+
 	// Colors and texts in cards
 	if (Boolean(G_MULTIPLY)) {
 		$('#ref_multiply_status').addClass('true').text('Enabled');
@@ -253,9 +256,9 @@ function panel_referral_init(){
 		$("#ref_multiply_speed").text('really slow');
 	} else if (G_SPEED == 1 ) {
 		$("#ref_multiply_speed").text('Human Simulation');
-	} else if (G_SPEED == 0 ) {
+	} else if (G_SPEED == 2 ) {
 		$("#ref_multiply_speed").text('Medium');
-	} else if (G_SPEED == 0 ) {
+	} else if (G_SPEED == 3 ) {
 		$("#ref_multiply_speed").text('Fast');
 	}  
 
@@ -279,14 +282,17 @@ function panel_referral_init(){
 		stat_bet=stat_bet+(stat_bet*G_INCR/100);
 		accepted_consecutive_losts++;
 	}
-	$('#accepted_consecutive_losts_num').text(accepted_consecutive_losts-1);
+	$('#accepted_consecutive_losts_num').text(accepted_consecutive_losts);
 
     // Begin Message Construction
     var balance = parseFloat($('#balance').text()).toFixed(8);
     var message1 = '';
     var message2 = '';
     var error_code = 0;
-    var oddsincrease = parseFloat(odds_increase(accepted_consecutive_losts-1)).toFixed(8);
+    var oddsincrease = parseFloat(odds_increase(accepted_consecutive_losts-1).split(":")[0]).toFixed(8);
+    var totwagered = parseFloat(odds_increase(accepted_consecutive_losts-1).split(":")[1]).toFixed(8);
+    console.log ("[ref] final win and wagered -- win: "+oddsincrease+" wag:"+totwagered);
+    var alertmsg = ""
 
     if (G_MAX_BET > balance ) {
     	message1 = "MAX BET is higher then Balance. Can't play.";
@@ -335,7 +341,7 @@ function panel_referral_init(){
   	else if (error_code == 1) $('#ref_help_message').removeClass('lime').addClass('yellow');  
 
   	//find last time multiply in hh:mm 
-	var [{ value: month },,{ value: day },,{ value: year },,{ value: hour },,{ value: minute }] = dateTimeFormat .formatToParts(last_multiply);
+	var [{ value: month },,{ value: day },,{ value: year },,{ value: hour },,{ value: minute }] = dateTimeFormat.formatToParts(last_multiply);
 	//console.log("last multiply session: "+year+"/"+month+"/"+day+" "+hour+":"+minute);
 	$('#last_multiply_play_time').text(month+" "+day+", "+hour+":"+minute);
   	
@@ -353,7 +359,7 @@ function odds_increase (accepted_consecutive_losts) {
 		nbet = nbet + (nbet * (G_INCR / 100));
 		nwin = nbet + (nbet * (G_ODDS - 1));
 	}
-	return winlessspent;
+	return winlessspent+":"+spent;
 }
 
 function graphs_init () {
@@ -366,7 +372,7 @@ function graphs_init () {
 	    data: {
 	        labels: last_session_hist,
 	        datasets: [{
-	            label: 'Last Session Multiplpy Balance',
+	            label: 'Last Session Multiply Balance',
 	            backgroundColor: 'rgb(255, 127, 80)',
 	            borderColor: 'rgb(255, 127, 80)',
 	            data: last_session_hist,
@@ -452,4 +458,11 @@ function G_getCookie(cname) {
     }
   }
   return "";
+}
+
+function G_setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
